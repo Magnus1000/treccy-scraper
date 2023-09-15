@@ -4089,6 +4089,13 @@ a {
   box-shadow: inset 1px 0 #e6e4d5, inset 0 -1px #e6e4d5, -1px -1px 5px 1px rgba(0, 0, 0, .05);
 }
 
+.expand-collapse-wrapper:hover {
+  background-color: #e6e4d5;
+}
+.expand-collapse-wrapper:focus {
+  background-color: #e6e4d5;
+}
+
 .expand-collapse-wrapper.collapse {
   right: 0%;
 }
@@ -5648,5 +5655,11 @@ a {
   }
   .popup-toggle-checkbox:checked ~ .popup-toggle-dot {
       left: 19px;
+  }
+  .expand-collapse-wrapper:hover {
+    background-color: #e6e4d5;
+  }
+  .expand-collapse-wrapper:focus {
+    background-color: #e6e4d5;
   }
 }
