@@ -1,18 +1,22 @@
 {
-    "manifest_version": 3,
-    "name": "Treccy Pacman",
-    "version": "1.0",
-    "description": "A chrome extension to improve treccy workflow",
-    "permissions": [
-      "activeTab"
-    ],
-    "browser_action": {
-      "default_popup": "scraperCode.html"
-    },
-    "icons": {
-      "16": "icon16.png",
-      "48": "icon48.png",
-      "128": "icon128.png"
-    }
+  "manifest_version": 3,
+  "name": "Treccy Pacman",
+  "version": "1.0",
+  "description": "A chrome extension to improve treccy workflow",
+  "permissions": [
+    "activeTab"
+  ],
+  "action": {
+    "default_popup": "scraperCode.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
   }
+}
+
   
