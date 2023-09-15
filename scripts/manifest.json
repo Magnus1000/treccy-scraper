@@ -3,6 +3,12 @@
   "name": "Treccy Pacman",
   "version": "1.0",
   "description": "A chrome extension to improve treccy workflow",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["popup.js"]
+    }
+  ],
   "permissions": [
     "activeTab"
   ],
