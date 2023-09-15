@@ -8,43 +8,54 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   // Function to load drawer.html into the current webpage
   async function loadDrawer() {
     try {
-      const url = chrome.runtime.getURL('drawer.html'); // Get fully qualified URL
-      const response = await fetch(url); // Fetch the local HTML file
-      const text = await response.text(); // Get the HTML as text
-      const drawerDiv = document.createElement('div'); // Create a new DIV
-      drawerDiv.id = 'drawer-overlay'; // Set the ID of the DIV
-      drawerDiv.innerHTML = text; // Insert the HTML into the DIV
-      document.body.appendChild(drawerDiv); // Append the DIV to the body of the page
+      const url = chrome.runtime.getURL('drawer.html');
+      const response = await fetch(url);
+      const text = await response.text();
+      const drawerDiv = document.createElement('div');
+      drawerDiv.id = 'drawer-overlay';
+      drawerDiv.innerHTML = text;
+      document.body.appendChild(drawerDiv);
     } catch (error) {
-      console.error('Failed to load drawer:', error); // Log errors if any
+      console.error('Failed to load drawer:', error);
     }
   }
-
-  // Add click event listener for the "expand-collapse" button
-document.addEventListener('DOMContentLoaded', () => {
-    const expandCollapseBtn = document.getElementById('expand-collapse');
-    if (expandCollapseBtn) {
-      expandCollapseBtn.addEventListener('click', toggleDrawerCollapse);
-    }
-  });
-  
-  // Initial code to listen for the toggle element being clicked.
-  document.addEventListener('DOMContentLoaded', () => {
-    const popupToggle = document.getElementById('popup-toggle-83a1371d7');
-    if (popupToggle) {
-      console.log('Element found on page load');
-      popupToggle.addEventListener('click', () => {
-        console.log('toggle clicked');
-        loadDrawer();
-      });
-    }
-  });
   
   // Function to toggle "collapse" class for the "drawer-wrapper" div
-function toggleDrawerCollapse() {
+  function toggleDrawerCollapse() {
     const drawerWrapper = document.querySelector('.drawer-wrapper');
     if (drawerWrapper) {
       drawerWrapper.classList.toggle('collapse');
     }
   }
-
+  
+  // Initial code to listen for the toggle element and its state
+  document.addEventListener('DOMContentLoaded', () => {
+    const popupToggle = document.getElementById('popup-toggle-83a1371d7');
+    if (popupToggle) {
+      console.log('Element found on page load');
+  
+      // Fetch the stored checkbox state from chrome.storage
+      chrome.storage.local.get(['checkboxState'], function(result) {
+        if (result.checkboxState) {
+          popupToggle.checked = true;
+          loadDrawer(); // If the stored state is checked, load the drawer
+        }
+      });
+  
+      popupToggle.addEventListener('click', () => {
+        console.log('toggle clicked');
+        if (popupToggle.checked) {
+          // Store the checkbox state as 'checked'
+          chrome.storage.local.set({ 'checkboxState': true }, function() {
+            console.log('Checkbox state saved as checked');
+          });
+          loadDrawer();
+        } else {
+          // Store the checkbox state as 'unchecked'
+          chrome.storage.local.set({ 'checkboxState': false }, function() {
+            console.log('Checkbox state saved as unchecked');
+          });
+        }
+      });
+    }
+  });
