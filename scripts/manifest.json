@@ -7,7 +7,7 @@
     "activeTab"
   ],
   "action": {
-    "default_popup": "scraperCode.html"
+    "default_popup": "popup.html"
   },
   "background": {
     "service_worker": "background.js"
