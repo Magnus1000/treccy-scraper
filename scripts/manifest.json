@@ -1,5 +1,5 @@
 {
-    "manifest_version": 1,
+    "manifest_version": 3,
     "name": "Treccy Pacman",
     "version": "1.0",
     "description": "A chrome extension to improve treccy workflow",
