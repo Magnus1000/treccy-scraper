@@ -4591,12 +4591,13 @@ a {
 
 .plugin-treccy-popup-text {
   font-weight: 400;
+  width:100%
 }
 
-.ms-toggle-dot {
+.popup-toggle-dot {
   z-index: 1;
-  width: 28px;
-  height: 28px;
+  width: 18px;
+  height: 18px;
   background-color: #fff;
   border-radius: 50%;
   margin-top: 3px;
@@ -4606,23 +4607,13 @@ a {
   box-shadow: 0 1px 5px rgba(0, 0, 0, .2);
 }
 
-.ms-toggle-dot.w--redirected-checked {
+.popup-toggle-dot.w--redirected-checked {
   background-color: #fff;
   background-image: none;
   left: 39px;
 }
 
-.ms-input-label {
-  color: #121331;
-  margin-bottom: 5px;
-  font-weight: 700;
-}
-
-.ms-input-label.less-margin {
-  margin-bottom: 3px;
-}
-
-.ms-toggle-checkbox {
+.popup-toggle-checkbox {
   display: none;
 }
 
@@ -4637,23 +4628,24 @@ a {
   display: flex;
 }
 
-.ms-toggle-wrap {
-  width: 50px;
-  height: 34px;
+.popup-togglee-wrap {
+  width: 40px;
+  height: 24px;
   margin-bottom: 15px;
   position: relative;
 }
 
-.ms-toggle-row {
-  justify-content: space-between;
+.popup-toggle-row {
+  justify-content: right;
   align-items: flex-start;
   margin-bottom: 0;
   display: flex;
+  width: 100%;
 }
 
-.ms-toggle-bg {
+.popup-toggle-bg {
   z-index: 0;
-  width: 50px;
+  width: 40px;
   background-color: #e2e2e2;
   border-radius: 100px;
   transition: background-color .2s;
@@ -4664,7 +4656,7 @@ a {
   right: 0%;
 }
 
-.ms-toggle-label {
+.popup-toggle-label {
   z-index: 2;
   white-space: nowrap;
   justify-content: flex-start;
@@ -4677,19 +4669,6 @@ a {
   bottom: 0%;
   left: 0%;
   right: auto;
-}
-
-.ms-help-text {
-  opacity: .8;
-  margin-top: -18px;
-  margin-bottom: 15px;
-  font-size: 90%;
-  font-weight: 300;
-}
-
-.ms-help-text.less-margin {
-  margin-top: -4px;
-  margin-bottom: 4px;
 }
 
 @media screen and (min-width: 1920px) {
@@ -5658,5 +5637,16 @@ a {
 
   #w-node-_6fb9368d-200c-74a2-d5cc-eda48e0373fc-6394a40b {
     grid-area: 2 / 1 / 3 / 2;
+  }
+
+  .plugin-popup-body {
+    background-color: transparent;
+  }
+
+  .popup-toggle-checkbox:checked ~ .popup-toggle-bg {
+    background-color: #BFF103;
+  }
+  .popup-toggle-checkbox:checked ~ .popup-toggle-dot {
+      left: 19px;
   }
 }
