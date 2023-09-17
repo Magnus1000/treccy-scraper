@@ -1,3 +1,5 @@
+console.log(`popup.js script loaded at ${Date.now()} ms`);
+
 // Initialize the popup checkbox state
 document.addEventListener('DOMContentLoaded', () => {
   const popupToggle = document.getElementById('popup-toggle-83a1371d7');
