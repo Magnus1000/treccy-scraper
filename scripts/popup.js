@@ -1,18 +1,21 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const toggleElement = document.getElementById("popup-toggle-83a1371d7");
+// Initialize the popup checkbox state
+document.addEventListener('DOMContentLoaded', () => {
+  const popupToggle = document.getElementById('popup-toggle-83a1371d7');
   
-  if (toggleElement) {
-    console.log("Element found!");
-    
-    toggleElement.addEventListener("click", function () {
-      console.log("toggle clicked");
-      
-      if (toggleElement.checked) {
-        // Send message to background.js to load drawer
-        chrome.runtime.sendMessage({ action: 'loadDrawer' });
-      }
-    });
-  } else {
-    console.log("Element not found!");
-  }
+  // Fetch the stored checkbox state from chrome.storage
+  chrome.runtime.sendMessage({ action: 'getCheckboxState' }, (response) => {
+    if (response) {
+      popupToggle.checked = true;
+    } else {
+      popupToggle.checked = false;
+    }
+  });
+
+  // Add a click listener to the checkbox
+  popupToggle.addEventListener('click', () => {
+    chrome.runtime.sendMessage({ action: 'storeCheckboxState', value: popupToggle.checked });
+    if (popupToggle.checked) {
+      chrome.runtime.sendMessage({ action: 'loadDrawer' });
+    }
+  });
 });

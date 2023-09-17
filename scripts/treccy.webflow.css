@@ -4094,7 +4094,7 @@ a {
 }
 .expand-collapse-wrapper:focus {
   background-color: #e6e4d5;
-}
+} 
 
 .expand-collapse-wrapper.collapse {
   right: 0%;
