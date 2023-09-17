@@ -1,5 +1,5 @@
-// Function to load drawer.html into the current webpage
-async function loadDrawer() {
+  // Function to load drawer.html into the current webpage
+  async function loadDrawer() {
     try {
       const url = chrome.runtime.getURL('drawer.html');
       const response = await fetch(url);
@@ -8,6 +8,7 @@ async function loadDrawer() {
       drawerDiv.id = 'drawer-overlay';
       drawerDiv.innerHTML = text;
       document.body.appendChild(drawerDiv);
+      console.log('Drawer loaded.');
     } catch (error) {
       console.error('Failed to load drawer:', error);
     }
@@ -19,27 +20,18 @@ async function loadDrawer() {
       loadDrawer(); // Call the function to load the HTML overlay
     }
   });
-  
-  // Initial code to listen for the toggle element and its state
+
+  // Initial code to check if the toggle should be set and the drawer loaded
   document.addEventListener('DOMContentLoaded', () => {
-    const popupToggle = document.getElementById('popup-toggle-83a1371d7');
-    if (popupToggle) {
-      // Fetch the stored checkbox state from chrome.storage
-      chrome.runtime.sendMessage({ action: 'getCheckboxState' }, (response) => {
-        if (response) {
-          popupToggle.checked = true;
-          loadDrawer(); // If the stored state is checked, load the drawer
-        }
-      });
-  
-      popupToggle.addEventListener('click', () => {
-        if (popupToggle.checked) {
-          chrome.runtime.sendMessage({ action: 'storeCheckboxState', value: true });
-          loadDrawer();
-        } else {
-          chrome.runtime.sendMessage({ action: 'storeCheckboxState', value: false });
-        }
-      });
-    }
+    // Send a message to background script to indicate that the content script is ready
+    chrome.runtime.sendMessage({ action: 'contentScriptReady' }, (response) => {
+      console.log('Sent contentScriptReady message.');
+    });
+
+    // Fetch the stored checkbox state from chrome.storage
+    chrome.storage.local.get(['checkboxState'], function(result) {
+      if (result.checkboxState) {
+        loadDrawer(); // If the stored state is checked, load the drawer
+      }
+    });
   });
-  
