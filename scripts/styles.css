@@ -210,6 +210,24 @@ h1 {
   font-weight: 700;
 }
 
+.plugin-select-field-83a1371d7:focus-visible {
+  outline-offset: 0px;
+  border-color: #1b2b1c;
+  outline: 1px solid #1b2b1c;
+}
+
+.plugin-select-field-83a1371d7:hover {
+  outline-offset: 0px;
+  outline: 1px solid #69706d;
+}
+
+.plugin-select-field-83a1371d7[data-wf-focus-visible] {
+  outline-offset: 0px;
+  border-color: #1b2b1c;
+  outline: 1px solid #1b2b1c;
+}
+
+
 .plugin-text-area-wrapper-83a1371d7 {
   width: 100%;
   flex-direction: column;
