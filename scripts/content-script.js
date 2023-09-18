@@ -36,7 +36,8 @@ async function loadDrawer() {
       attachHighlightButtonListeners();
       prepopulateWebsiteUrl();
       startTimer();
-      logImageURLs();
+      //logImageURLs();
+      addImageAndCheckbox();
       collectEmails();
       setUsernameText(username);
       fetchRaceData(username)
@@ -295,4 +296,30 @@ async function fetchRaceData(username) {
   } catch (error) {
     console.error("Failed to fetch data:", error);  // Log any errors that occur during the fetch
   }
+}
+
+// Function to add a new image and checkbox wrapper
+function addImageAndCheckbox(imageSrc) {
+  // Log: Function is initiated
+  console.log('Function addImageAndCheckbox is initiated');
+  
+  // Clone the template div
+  const templateDiv = document.querySelector('.plugin-image-and-checkbox-wrapper-83a1371d7').cloneNode(true);
+  
+  // Log: Template div is cloned
+  console.log('Template div is cloned');
+  
+  // Find the image and set the source
+  const image = templateDiv.querySelector('.plugin-image');
+  image.src = imageSrc;
+  
+  // Log: Image source is set
+  console.log(`Image source is set to ${imageSrc}`);
+  
+  // Append to the parent container
+  const parentContainer = document.querySelector('.plugin-image-grid-83a1371d7');
+  parentContainer.appendChild(templateDiv);
+
+  // Log: New div is appended to parent container
+  console.log('New div is appended to parent container');
 }
