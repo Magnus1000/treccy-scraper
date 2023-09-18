@@ -69,8 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Function to initialize the expand/collapse feature
   function initializeExpandCollapse() {
     // Log that this function is being initialized
-    console.log(`Initializing expand/collapse at ${getCurrentFormattedTime()}`);
-    
+    console.log(`Initializing expand/collapse`);
+
     // Find the element with ID = expand-collapse-83a1371d7
     const expandCollapseWrapper = document.getElementById('expand-collapse-83a1371d7');
 
@@ -84,23 +84,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // Log to console for debugging
         console.log('expand-collapse-wrapper clicked');
 
-        // Find the element with class = expand-collapse-wrapper-83a1371d7
-        const expandCollapseElement = document.querySelector('.expand-collapse-wrapper-83a1371d7');
-        
-        // Find the element with class = drawer-wrapper-83a1371d7
-        const drawerWrapperElement = document.querySelector('.drawer-wrapper-83a1371d7');
+        // Find the element with class = plugin-expand-collapse-wrapper-83a1371d7
+        const expandCollapseElement = document.querySelector('.plugin-expand-collapse-wrapper-83a1371d7');
 
-        // Toggle the "collapsed" class if the elements exist
+        // Find the element with class = plugin-drawer-wrapper-83a1371d7
+        const drawerWrapperElement = document.querySelector('.plugin-drawer-wrapper-83a1371d7');
+
+        // Toggle the "collapse" class if the elements exist
         if (expandCollapseElement) {
           expandCollapseElement.classList.toggle('collapse');
+          console.log('Toggled collapse class for plugin-expand-collapse-wrapper-83a1371d7');
         }
 
         if (drawerWrapperElement) {
           drawerWrapperElement.classList.toggle('collapse');
+          console.log('Toggled collapse class for plugin-drawer-wrapper-83a1371d7');
         }
       });
     } else {
       // Log error message to console if the element with the given ID is not found
-      console.error(`Element with ID = expand-collapse-83a1371d7 not found at ${getCurrentFormattedTime()}`);
+      console.error(`Element with ID = expand-collapse-83a1371d7 not found`);
     }
   }
