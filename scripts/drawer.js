@@ -3,7 +3,7 @@ console.log(`drawer.js script loaded at ${Date.now()} ms`);
 document.addEventListener('DOMContentLoaded', () => {
   
   // Find the element with ID = expand-collapse
-  const expandCollapseWrapper = document.getElementById('expand-collapse');
+  const expandCollapseWrapper = document.getElementById('expand-collapse-83a1371d7');
 
   // Check if the element exists
   if (expandCollapseWrapper) {
@@ -15,10 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('expand-collapse-wrapper clicked');
       
       // Find the element with class = expand-collapse-wrapper
-      const expandCollapseElement = document.querySelector('.expand-collapse-wrapper');
+      const expandCollapseElement = document.querySelector('.expand-collapse-wrapper-83a1371d7');
       
       // Find the element with class = drawer-wrapper
-      const drawerWrapperElement = document.querySelector('.drawer-wrapper');
+      const drawerWrapperElement = document.querySelector('.drawer-wrapper-83a1371d7');
 
       // Toggle the "collapsed" class if the elements exist
       if (expandCollapseElement) {

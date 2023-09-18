@@ -7,7 +7,7 @@ async function loadDrawer() {
     const response = await fetch(url);
     const text = await response.text();
     const drawerDiv = document.createElement('div');
-    drawerDiv.id = 'drawer-overlay';
+    drawerDiv.id = 'drawer-overlay-83a1371d7';
     drawerDiv.innerHTML = text;
     document.body.appendChild(drawerDiv);
     console.log('Drawer loaded.');
