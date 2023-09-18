@@ -600,20 +600,20 @@ h1 {
 .plugin-treccy-popup-83a1371d7 {
   max-height: 220px;
   max-width: 450px;
-  min-height: 170px;
+  min-height: 130px;
   min-width: 350px;
   background-color: #fbf8ef;
-  border: 1px solid #e6e4d5;
-  border-radius: 5px;
   flex-direction: column;
   padding: 20px;
   display: flex;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
 }
 
 .plugin-treccy-popup-text-83a1371d7 {
+  position: relative;
+  display: flex;
   font-weight: 400;
-  width:100%
+  width:100%;
+  font-size: 16px;
 }
 
 .popup-toggle-dot-83a1371d7 {
@@ -639,15 +639,15 @@ h1 {
   display: none;
 }
 
-.popup-togglee-wrap-83a1371d7 {
+.popup-toggle-wrap-83a1371d7 {
+  position: relative;
   width: 40px;
   height: 24px;
-  margin-bottom: 15px;
-  position: relative;
 }
 
 .popup-toggle-row-83a1371d7 {
   justify-content: right;
+  height: 24px;
   align-items: flex-start;
   margin-bottom: 0;
   display: flex;
