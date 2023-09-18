@@ -107,4 +107,56 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  
+// Function to attach the event listener and perform the data submission
+function attachCreateRaceButtonListener() {
+  // Log that the function is being initialized
+  console.log('Attaching listener to create-race-button-83a1371d7');
+
+  // Find the button with ID = create-race-button-83a1371d7
+  const createRaceButton = document.getElementById('create-race-button-83a1371d7');
+
+  // Check if the button exists
+  if (createRaceButton) {
+    // Log to console for debugging
+    console.log('create-race-button-83a1371d7 element found');
+
+    // Add click event listener to the button
+    createRaceButton.addEventListener('click', async () => {
+      // Log to console for debugging
+      console.log('create-race-button-83a1371d7 clicked');
+
+      // Initialize an empty JSON object
+      const jsonData = {};
+
+      // Get all input and text area fields in the form
+      const formElements = document.querySelectorAll('input, textarea');
+
+      // Loop through each field to gather data
+      formElements.forEach((element) => {
+        jsonData[element.id] = element.value;
+      });
+
+      // Log the collected JSON data
+      console.log('Collected JSON data:', jsonData);
+
+      // Send JSON data to Vercel serverless function
+      try {
+        const response = await fetch('https://treccy-serverside-magnus1000.vercel.app/api/pluginCreateData', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(jsonData),
+        });
+
+        const result = await response.json();
+        console.log('Server response:', result);
+      } catch (error) {
+        console.error('Error sending data:', error);
+      }
+    });
+  } else {
+    // Log error message to console if the button with the given ID is not found
+    console.error('Element with ID = create-race-button-83a1371d7 not found');
+  }
+}
