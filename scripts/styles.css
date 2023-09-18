@@ -309,7 +309,7 @@ h1 {
 
 .plugin-timer-div-wrapper-83a1371d7 {
   height: 40px;
-  max-width: 20%;
+  max-width: 30%;
   border: 1px solid #e6e4d5;
   border-radius: 5px;
   flex: 1;
@@ -331,10 +331,10 @@ h1 {
 }
 
 .plugin-font-awesome-icon-83a1371d7 {
-  min-width: 1.3em;
+  min-width: 1.1em;
   justify-content: center;
   align-items: center;
-  font-size: 1.3em;
+  font-size: 1.1em;
   transition: all .3s;
   display: flex;
 }
@@ -354,28 +354,24 @@ h1 {
   display: flex;
 }
 
-.plugin-timer-error-wrapper-83a1371d7 {
-  justify-content: space-between;
+.plugin-error-div-wrapper-83a1371d7 {
+  width: 100%;
   display: flex;
   position: relative;
-}
-
-.error-div-wrapper-83a1371d7 {
   height: 40px;
-  max-width: 70%;
   border: 1px solid #e6e4d5;
   border-radius: 5px;
   flex: 1;
   transition: opacity .2s;
 }
 
-.error-div-wrapper-83a1371d7.error {
+.plugin-error-div-wrapper-83a1371d7.error {
   color: #ff6201;
   background-color: rgba(255, 98, 1, .2);
   border-color: #ff6201;
 }
 
-.error-div-wrapper-83a1371d7.success {
+.plugin-error-div-wrapper-83a1371d7.success {
   color: #5b8c5a;
   background-color: rgba(88, 129, 87, .2);
   border-color: #5b8c5a;

@@ -1,3 +1,5 @@
+const username = '@mazzy';
+
 // Function to get the current time in the desired format
 function getCurrentFormattedTime() {
   const now = new Date();
@@ -30,6 +32,13 @@ async function loadDrawer() {
 
     if (!isDrawerInitialized) {
       initializeExpandCollapse();
+      attachCreateRaceButtonListener();
+      attachHighlightButtonListeners();
+      prepopulateWebsiteUrl();
+      startTimer();
+      logImageURLs();
+      collectEmails();
+      setUsernameText(username);
       isDrawerInitialized = true;
     }
   } catch (error) {
@@ -158,5 +167,98 @@ function attachCreateRaceButtonListener() {
   } else {
     // Log error message to console if the button with the given ID is not found
     console.error('Element with ID = create-race-button-83a1371d7 not found');
+  }
+}
+
+function attachHighlightButtonListeners() {
+  // Find all buttons with the specific class
+  const buttons = document.querySelectorAll('.plugin-highlight-button-83a1371d7');
+  
+  // Loop through each button and add a click event listener
+  buttons.forEach((button) => {
+    button.addEventListener('click', function() {
+      // Get the highlighted text on the page
+      const highlightedText = window.getSelection().toString();
+      console.log("Highlighted Text: ", highlightedText); // Log the highlighted text
+      
+      // Find the corresponding input field. You may need to modify this to find the correct input field.
+      const inputField = button.nextElementSibling;
+      
+      // Set the input field's value to the highlighted text
+      inputField.value = highlightedText;
+    });
+  });
+}
+
+// Function to prepopulate the 'race_website' field with the current URL
+const prepopulateWebsiteUrl = () => {
+  const websiteInput = document.getElementById("race-website"); 
+  if (websiteInput) {
+      websiteInput.value = window.location.href;
+      console.log("Prepopulated 'race-website' with the current URL");
+  } else {
+      console.log("The input field for 'race-website' could not be found.");
+  }
+};
+
+// Function to start the timer and push the time to the drawer
+let seconds = 0;
+
+function startTimer() {
+  const timerElement = document.querySelector('.plugin-timer-time-83a1371d7'); // Finding the div by its class
+
+  setInterval(function() {
+    seconds++;
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+
+    const displayMinutes = String(minutes).padStart(2, '0');
+    const displaySeconds = String(remainingSeconds).padStart(2, '0');
+
+    timerElement.innerHTML = `${displayMinutes}:${displaySeconds}`;
+  }, 1000);
+}
+
+// Function to log all image URLs on the page
+function logImageURLs() {
+  // Select all image elements on the page
+  const images = document.querySelectorAll('img');
+
+  // Loop through each image element
+  images.forEach((image) => {
+    const imageURL = image.src; // Get the source URL of the image
+    const isSVG = imageURL.toLowerCase().endsWith('.svg'); // Check if the image is an SVG
+
+    // If the image is not an SVG, print its URL to the console
+    if (!isSVG) {
+      console.log("Image URL:", imageURL);
+    }
+  });
+}
+
+// Function to collect all email addresses on the page and update the input field 
+function collectEmails() {
+  const bodyText = document.body.innerText; // Get all text from the body of the page
+  const emailPattern = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g; // Regular expression to match email addresses
+  const emails = bodyText.match(emailPattern) || []; // Find all email addresses
+  const uniqueEmails = [...new Set(emails)]; // Remove duplicates
+
+  console.log("Collected Emails:", uniqueEmails); // Log collected emails to console
+
+  // Update the input field with ID "race-emails"
+  const emailField = document.getElementById("race-emails");
+  emailField.value = uniqueEmails.join(', ');
+}
+
+function setUsernameText(username) {
+  // Find the div with the specific class
+  const usernameElement = document.querySelector('.plugin-username-text-83a1371d7');
+  
+  // Check if the element exists
+  if (usernameElement) {
+    usernameElement.innerHTML = username;  // Set the username
+    console.log("Username set successfully");  // Log success to console
+  } else {
+    console.error("Element with class 'plugin-username-text-83a1371d7' not found");  // Log an error message if the element does not exist
   }
 }
