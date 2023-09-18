@@ -27,7 +27,7 @@
   color: #1b2b1c;
   display: flex;
   position: relative;
-  margin-top: 0;
+  margin: 0;
   font-family: Rubik, sans-serif;
   font-size: 20px;
   font-weight: 500;
@@ -112,23 +112,9 @@
   display: flex;
 }
 
-/*.all-filters-form-copy {
-  z-index: 20001;
-  height: 100%;
-  color: #1b2b1c;
-  background-color: rgba(10, 15, 13, .4);
-  flex-direction: column;
-  align-self: center;
-  align-items: center;
-  margin-bottom: 0;
-  font-family: Rubik, sans-serif;
-  display: flex;
-  position: fixed;
-  top: 0%;
-  bottom: 0%;
-  left: 0%;
-  right: 0%;
-}*/
+h1 {
+  margin: 0;
+}
 
 .plugin-form-select-dropdown-wrapper-83a1371d7 {
   width: 100%;
@@ -137,6 +123,7 @@
   margin-bottom: 0;
   display: flex;
   position: relative;
+  border-radius: 5px;
 }
 
 .plugin-form-select-dropdown-wrapper-83a1371d7.account-page {
@@ -696,10 +683,6 @@
 }
 
 @media screen and (min-width: 1920px) {
-  h3 {
-    margin-top: 0;
-  }
-
 
 }
 
