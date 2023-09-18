@@ -11,21 +11,6 @@ async function loadDrawer() {
     drawerDiv.innerHTML = text;
     document.body.appendChild(drawerDiv);
     console.log('Drawer loaded.');
-
-    // Add event listener to the "expand-collapse" element
-    const expandCollapseButton = document.getElementById('expand-collapse');
-    if (expandCollapseButton) {
-      expandCollapseButton.addEventListener('click', () => {
-        // Your code for handling the click event here
-        console.log('Expand-Collapse button clicked.');
-        // Add your logic here to expand or collapse the drawer
-      });
-    } else {
-      console.error('Element with ID "expand-collapse" not found in drawer.html.');
-    }
-  } catch (error) {
-    console.error('Failed to load drawer:', error);
-  }
 }
 
 // Listen for messages from background.js
