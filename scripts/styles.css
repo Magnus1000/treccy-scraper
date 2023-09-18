@@ -222,6 +222,7 @@ h1 {
   height: 100%;
   background-color: #fff;
   border-color: #69706d;
+  border-radius: 5px;
   padding-top: 22px;
   font-family: Rubik, sans-serif;
   transition: all .2s;
@@ -253,6 +254,23 @@ h1 {
   font-size: 14px;
   line-height: 1.3em;
   overflow: auto;
+}
+
+.plugin-input-fields-83a1371d7:focus-visible {
+  outline-offset: 0px;
+  border-color: #1b2b1c;
+  outline: 1px solid #1b2b1c;
+}
+
+.plugin-input-fields-83a1371d7:hover {
+  outline-offset: 0px;
+  outline: 1px solid #69706d;
+}
+
+.plugin-input-fields-83a1371d7[data-wf-focus-visible] {
+  outline-offset: 0px;
+  border-color: #1b2b1c;
+  outline: 1px solid #1b2b1c;
 }
 
 .plugin-text-area-input-83a1371d7:hover {
