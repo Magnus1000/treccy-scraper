@@ -404,10 +404,12 @@ h1 {
 }
 
 .plugin-checkbox-wrapper-83a1371d7 {
-  grid-column-gap: 5px;
+  grid-column-gap: 10px;
   align-items: center;
   margin-bottom: 0;
-  padding-left: 0;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 5px;
   padding-right: 5px;
   display: flex;
   position: relative;
@@ -428,8 +430,8 @@ input[type="checkbox"] {
 .plugin-custom-checkbox-83a1371d7 {
   width: 12px;
   height: 12px;
-  border: 1px solid #ccc;
-  border-radius: 2px;
+  border: 1px solid #69706d;
+  border-radius: 50%;
   float: left;
   line-height: normal;
   position: relative; /* To position the input checkbox absolutely within it */
@@ -437,7 +439,7 @@ input[type="checkbox"] {
 
 .plugin-custom-checkbox-83a1371d7.checked {
   outline-offset: 2px;
-  background-color: #bff103;
+  background-color: #1b2b1c;
   border-color: #bff103;
   outline: 2px solid #bff103;
 }
@@ -459,7 +461,7 @@ input[type="checkbox"] {
 }
 
 .plugin-checkboxes-wrapper-83a1371d7 {
-  grid-column-gap: 5px;
+  grid-column-gap: 10px;
   grid-row-gap: 5px;
   flex-direction: column;
   display: flex;

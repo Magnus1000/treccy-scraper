@@ -1,4 +1,6 @@
 const username = '@mazzy';
+const start_time = getCurrentFormattedTime();
+console.log(`Started at ${start_time}`);
 
 // Function to get the current time in the desired format
 function getCurrentFormattedTime() {
@@ -36,11 +38,12 @@ async function loadDrawer() {
       attachHighlightButtonListeners();
       prepopulateWebsiteUrl();
       startTimer();
-      //logImageURLs();
       addImageAndCheckboxes();
       collectEmails();
       setUsernameText(username);
-      fetchRaceData(username)
+      fetchRaceData(username);
+      toggleCustomCheckbox();
+      allowSingleMainCheckbox();
       isDrawerInitialized = true;
     }
   } catch (error) {
@@ -120,37 +123,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to attach the event listener and perform the data submission
 function attachCreateRaceButtonListener() {
-  // Log that the function is being initialized
   console.log('Attaching listener to create-race-button-83a1371d7');
-
-  // Find the button with ID = create-race-button-83a1371d7
+  
   const createRaceButton = document.getElementById('create-race-button-83a1371d7');
-
-  // Check if the button exists
+  
   if (createRaceButton) {
-    // Log to console for debugging
     console.log('create-race-button-83a1371d7 element found');
-
-    // Add click event listener to the button
+    
     createRaceButton.addEventListener('click', async () => {
-      // Log to console for debugging
       console.log('create-race-button-83a1371d7 clicked');
 
-      // Initialize an empty JSON object
-      const jsonData = {};
+      //const start_time = "YourStartConstantHere";
+      const end_time = getCurrentFormattedTime();
+      //const username = "YourUsernameConstantHere";
 
-      // Get all input and text area fields in the form
+      console.log(`Finished at ${end_time}`);
+
+      let jsonData = {};
+
+      const getImgUrlFromParent = (checkbox) => {
+        const parentDiv = checkbox.closest('.plugin-image-and-checkbox-wrapper-83a1371d7');
+        const imgElement = parentDiv.querySelector('.plugin-image-83a1371d7');
+        return imgElement ? imgElement.src : "";
+      };
+
+      // Find checked checkbox for main photo
+      const mainCheckbox = document.querySelector('input[data-type="main"]:checked');
+      const mainImageURL = mainCheckbox ? getImgUrlFromParent(mainCheckbox) : "";
+
+      // Find checked checkboxes for gallery and get their URLs
+      const galleryCheckboxes = document.querySelectorAll('input[data-type="gallery"]:checked');
+      const galleryImageURLs = Array.from(galleryCheckboxes).map(cb => getImgUrlFromParent(cb));
+
       const formElements = document.querySelectorAll('input, textarea');
-
-      // Loop through each field to gather data
+      
       formElements.forEach((element) => {
         jsonData[element.id] = element.value;
       });
 
-      // Log the collected JSON data
+      jsonData.start_time = start_time;
+      jsonData.end_time = end_time;
+      jsonData.mainImageURL = mainImageURL;
+      jsonData.galleryImageURLs = galleryImageURLs;
+      jsonData.username = username;
+
       console.log('Collected JSON data:', jsonData);
 
-      // Send JSON data to Vercel serverless function
       try {
         const response = await fetch('https://treccy-serverside-magnus1000.vercel.app/api/pluginCreateData', {
           method: 'POST',
@@ -167,7 +185,6 @@ function attachCreateRaceButtonListener() {
       }
     });
   } else {
-    // Log error message to console if the button with the given ID is not found
     console.error('Element with ID = create-race-button-83a1371d7 not found');
   }
 }
@@ -219,23 +236,6 @@ function startTimer() {
 
     timerElement.innerHTML = `${displayMinutes}:${displaySeconds}`;
   }, 1000);
-}
-
-// Function to log all image URLs on the page
-function logImageURLs() {
-  // Select all image elements on the page
-  const images = document.querySelectorAll('img');
-
-  // Loop through each image element
-  images.forEach((image) => {
-    const imageURL = image.src; // Get the source URL of the image
-    const isSVG = imageURL.toLowerCase().endsWith('.svg'); // Check if the image is an SVG
-
-    // If the image is not an SVG, print its URL to the console
-    if (!isSVG) {
-      console.log("Image URL:", imageURL);
-    }
-  });
 }
 
 // Function to collect all email addresses on the page and update the input field 
@@ -333,9 +333,6 @@ function addImageAndCheckboxes() {
     
     container.appendChild(clone);  // Append the cloned div to the container
   });
-  
-  // Hide the original template div using its unique ID
-  // templateDiv.style.display = 'none';
 }
 
 // New function to handle checkbox toggle
@@ -355,3 +352,21 @@ function toggleCustomCheckbox() {
   });
 }
 
+// Function to only allow one Main Photo to be selected at a time
+function allowSingleMainCheckbox() {
+  const mainCheckboxes = document.querySelectorAll('input[data-type="main"]');
+  
+  mainCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener('change', function() {
+      if (this.checked) {
+        // Uncheck other checkboxes with data-type="main"
+        mainCheckboxes.forEach((otherCheckbox) => {
+          if (otherCheckbox !== this) {
+            otherCheckbox.checked = false;
+            otherCheckbox.previousElementSibling.classList.remove('checked');
+          }
+        });
+      }
+    });
+  });
+}
