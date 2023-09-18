@@ -37,7 +37,7 @@ async function loadDrawer() {
       prepopulateWebsiteUrl();
       startTimer();
       //logImageURLs();
-      addImageAndCheckbox();
+      addImageAndCheckboxes()
       collectEmails();
       setUsernameText(username);
       fetchRaceData(username)
@@ -298,28 +298,45 @@ async function fetchRaceData(username) {
   }
 }
 
-// Function to add a new image and checkbox wrapper
-function addImageAndCheckbox(imageSrc) {
-  // Log: Function is initiated
-  console.log('Function addImageAndCheckbox is initiated');
+// Function to find all image URLs on the page
+function findAllImageURLs() {
+  const imageURLs = [];  // Array to store image URLs
+  const images = document.querySelectorAll('img');  // Find all image tags
   
-  // Clone the template div
-  const templateDiv = document.querySelector('.plugin-image-and-checkbox-wrapper-83a1371d7').cloneNode(true);
+  images.forEach((img) => {
+    const src = img.src;
+    imageURLs.push(src);  // Add image URL to array
+  });
   
-  // Log: Template div is cloned
-  console.log('Template div is cloned');
-  
-  // Find the image and set the source
-  const image = templateDiv.querySelector('.plugin-image');
-  image.src = imageSrc;
-  
-  // Log: Image source is set
-  console.log(`Image source is set to ${imageSrc}`);
-  
-  // Append to the parent container
-  const parentContainer = document.querySelector('.plugin-image-grid-83a1371d7');
-  parentContainer.appendChild(templateDiv);
-
-  // Log: New div is appended to parent container
-  console.log('New div is appended to parent container');
+  console.log('All image URLs:', imageURLs);  // Log all image URLs
+  return imageURLs;  // Return the array of image URLs
 }
+
+// Function to add multiple images and checkboxes
+function addImageAndCheckboxes() {
+  console.log('Function addImageAndCheckboxes is initiated');  // Log initiation
+
+  // Call the function to find all image URLs
+  const allImageURLs = findAllImageURLs();
+
+  // Check if there are any image URLs
+  if (!allImageURLs.length) {
+    console.error('No image URLs found');
+    return;
+  }
+
+  // Loop through each image URL and call the function to add image and checkbox
+  allImageURLs.forEach((imageSrc) => {
+    const templateDiv = document.querySelector('.plugin-image-and-checkbox-wrapper-83a1371d7').cloneNode(true);
+    console.log('Template div is cloned');  // Log cloning
+
+    const image = templateDiv.querySelector('.plugin-image-83a1371d7');
+    image.src = imageSrc;  // Set image source
+    console.log(`Image source is set to ${imageSrc}`);  // Log image source
+    
+    const parentContainer = document.querySelector('.plugin-image-grid-83a1371d7');
+    parentContainer.appendChild(templateDiv);  // Append new div to parent
+    console.log('New div is appended to parent container');  // Log appending
+  });
+}
+
