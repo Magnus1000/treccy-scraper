@@ -1,5 +1,17 @@
-// background.js
-console.log(`background.js script loaded at ${Date.now()} ms`);
+// Function to get the current time in the desired format
+function getCurrentFormattedTime() {
+    const now = new Date();
+    const hours = now.getHours() % 12 || 12;  // Convert to 12-hour format and keep leading 0
+    const minutes = String(now.getMinutes()).padStart(2, '0'); // Keep leading 0
+    const seconds = String(now.getSeconds()).padStart(2, '0'); // Keep leading 0
+    const milliseconds = String(now.getMilliseconds()).padStart(3, '0'); // Keep leading 0s
+  
+    return `${hours}:${minutes}:${seconds}.${milliseconds}`;
+  }
+  
+  // Use the function to get the formatted time and log it to the console
+  const formattedTime = getCurrentFormattedTime();
+  console.log(`background.js script loaded at ${formattedTime}`);
 
 // Function to store the checkbox state
 function storeCheckboxState(isChecked) {
@@ -35,8 +47,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         console.log('contentScriptReady message received.');
         getCheckboxState((isChecked) => {
             if (isChecked) {
-                console.log('On Pageload. Checkbox is checked. Sending drawer message.');
-                sendDrawerMessage();
+                console.log('On Pageload. Checkbox is checked.');
+                // Not sending loadDrawer message here anymore
             }
             sendResponse(true);
         });
@@ -55,3 +67,4 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         storeCheckboxState(message.value);
     }
 });
+

@@ -1,4 +1,6 @@
-console.log(`drawer.js script loaded at ${Date.now()} ms`);
+// Use the function to get the formatted time and log it to the console
+const formattedTime2 = getCurrentFormattedTime();
+console.log(`drawer.js script loaded at ${formattedTime2}`);
 
 document.addEventListener('DOMContentLoaded', () => {
   

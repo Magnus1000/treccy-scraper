@@ -1,8 +1,24 @@
-console.log(`content-script.js script loaded at ${Date.now()} ms`); 
+// Function to get the current time in the desired format
+function getCurrentFormattedTime() {
+  const now = new Date();
+  const hours = now.getHours() % 12 || 12;  // Convert to 12-hour format and keep leading 0
+  const minutes = String(now.getMinutes()).padStart(2, '0'); // Keep leading 0
+  const seconds = String(now.getSeconds()).padStart(2, '0'); // Keep leading 0
+  const milliseconds = String(now.getMilliseconds()).padStart(3, '0'); // Keep leading 0s
+
+  return `${hours}:${minutes}:${seconds}.${milliseconds}`;
+}
+
+// Use the function to get the formatted time and log it to the console
+const formattedTime = getCurrentFormattedTime();
+console.log(`content-script.js script loaded at ${formattedTime}`);
 
 // Function to load drawer.html into the current webpage
+let isDrawerInitialized = false;  // Flag to check if the drawer is already initialized
+
 async function loadDrawer() {
   try {
+    console.log('loadDrawer called at ' + getCurrentFormattedTime());  // Debugging line
     const url = chrome.runtime.getURL('drawer.html');
     const response = await fetch(url);
     const text = await response.text();
@@ -11,10 +27,16 @@ async function loadDrawer() {
     drawerDiv.innerHTML = text;
     document.body.appendChild(drawerDiv);
     console.log('Drawer loaded.');
+
+    if (!isDrawerInitialized) {
+      initializeExpandCollapse();
+      isDrawerInitialized = true;
+    }
   } catch (error) {
     console.log('Failed to load drawer: ', error);
   }
 }
+
 
 // Listen for messages from background.js
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -44,4 +66,41 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+  // Function to initialize the expand/collapse feature
+  function initializeExpandCollapse() {
+    // Log that this function is being initialized
+    console.log(`Initializing expand/collapse at ${getCurrentFormattedTime()}`);
+    
+    // Find the element with ID = expand-collapse-83a1371d7
+    const expandCollapseWrapper = document.getElementById('expand-collapse-83a1371d7');
 
+    // Check if the element exists
+    if (expandCollapseWrapper) {
+      // Log to console for debugging
+      console.log('expand-collapse-wrapper element found');
+
+      // Add click event listener
+      expandCollapseWrapper.addEventListener('click', () => {
+        // Log to console for debugging
+        console.log('expand-collapse-wrapper clicked');
+
+        // Find the element with class = expand-collapse-wrapper-83a1371d7
+        const expandCollapseElement = document.querySelector('.expand-collapse-wrapper-83a1371d7');
+        
+        // Find the element with class = drawer-wrapper-83a1371d7
+        const drawerWrapperElement = document.querySelector('.drawer-wrapper-83a1371d7');
+
+        // Toggle the "collapsed" class if the elements exist
+        if (expandCollapseElement) {
+          expandCollapseElement.classList.toggle('collapse');
+        }
+
+        if (drawerWrapperElement) {
+          drawerWrapperElement.classList.toggle('collapse');
+        }
+      });
+    } else {
+      // Log error message to console if the element with the given ID is not found
+      console.error(`Element with ID = expand-collapse-83a1371d7 not found at ${getCurrentFormattedTime()}`);
+    }
+  }
