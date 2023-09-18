@@ -881,7 +881,7 @@ a {
   position: absolute;
 }
 
-.form-label {
+.plugin-form-label-83a1371d7 {
   color: #0a0f0d;
   font-size: 12px;
   font-weight: 400;
@@ -4045,7 +4045,7 @@ a {
   border-radius: 5px;
 }
 
-.drawer-wrapper-83a1371d7 {
+.plugin-drawer-wrapper-83a1371d7 {
   z-index: 100000;
   width: 25%;
   min-height: 100vh;
@@ -4068,11 +4068,11 @@ a {
   box-shadow: inset 1px 0 #e6e4d5, 0 0 5px 1px rgba(0, 0, 0, .05);
 }
 
-.drawer-wrapper-83a1371d7.collapse {
+.plugin-drawer-wrapper-83a1371d7.collapse {
   display: none;
 }
 
-.expand-collapse-wrapper-83a1371d7 {
+.plugin-expand-collapse-wrapper-83a1371d7 {
   z-index: 200000;
   height: 180px;
   color: #bff103;
@@ -4089,14 +4089,14 @@ a {
   box-shadow: inset 1px 0 #e6e4d5, inset 0 -1px #e6e4d5, -1px -1px 5px 1px rgba(0, 0, 0, .05);
 }
 
-.expand-collapse-wrapper-83a1371d7:hover {
+.plugin-expand-collapse-wrapper-83a1371d7:hover {
   background-color: #e6e4d5;
 }
-.expand-collapse-wrapper-83a1371d7:focus {
+.plugin-expand-collapse-wrapper-83a1371d7:focus {
   background-color: #e6e4d5;
 } 
 
-.expand-collapse-wrapper-83a1371d7.collapse {
+.plugin-expand-collapse-wrapper-83a1371d7.collapse {
   right: 0%;
 }
 

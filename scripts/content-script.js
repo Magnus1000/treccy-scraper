@@ -7,10 +7,13 @@ async function loadDrawer() {
     const response = await fetch(url);
     const text = await response.text();
     const drawerDiv = document.createElement('div');
-    drawerDiv.id = 'drawer-overlay-83a1371d7';
+    drawerDiv.id = 'plugin-drawer-overlay-83a1371d7';
     drawerDiv.innerHTML = text;
     document.body.appendChild(drawerDiv);
     console.log('Drawer loaded.');
+  } catch (error) {
+    console.log('Failed to load drawer: ', error);
+  }
 }
 
 // Listen for messages from background.js
