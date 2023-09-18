@@ -37,7 +37,7 @@ async function loadDrawer() {
       prepopulateWebsiteUrl();
       startTimer();
       //logImageURLs();
-      addImageAndCheckboxes()
+      addImageAndCheckboxes();
       collectEmails();
       setUsernameText(username);
       fetchRaceData(username)
@@ -300,43 +300,58 @@ async function fetchRaceData(username) {
 
 // Function to find all image URLs on the page
 function findAllImageURLs() {
-  const imageURLs = [];  // Array to store image URLs
-  const images = document.querySelectorAll('img');  // Find all image tags
+  const imageURLs = [];  // Empty array to hold our image URLs
+  const imgElements = document.querySelectorAll('img');  // Get all image elements on the page
   
-  images.forEach((img) => {
-    const src = img.src;
-    imageURLs.push(src);  // Add image URL to array
+  imgElements.forEach((imgElement) => {
+    const src = imgElement.getAttribute('src');
+    
+    // Check if the src attribute exists and is not an SVG
+    if (src && !src.includes('.svg')) {
+      imageURLs.push(src);  // Add the image URL to our array
+    }
   });
-  
-  console.log('All image URLs:', imageURLs);  // Log all image URLs
+
+  console.log('Found image URLs:', imageURLs);  // Log the found image URLs to console
   return imageURLs;  // Return the array of image URLs
 }
 
 // Function to add multiple images and checkboxes
 function addImageAndCheckboxes() {
-  console.log('Function addImageAndCheckboxes is initiated');  // Log initiation
-
-  // Call the function to find all image URLs
-  const allImageURLs = findAllImageURLs();
-
-  // Check if there are any image URLs
-  if (!allImageURLs.length) {
-    console.error('No image URLs found');
-    return;
-  }
-
-  // Loop through each image URL and call the function to add image and checkbox
-  allImageURLs.forEach((imageSrc) => {
-    const templateDiv = document.querySelector('.plugin-image-and-checkbox-wrapper-83a1371d7').cloneNode(true);
-    console.log('Template div is cloned');  // Log cloning
-
-    const image = templateDiv.querySelector('.plugin-image-83a1371d7');
-    image.src = imageSrc;  // Set image source
-    console.log(`Image source is set to ${imageSrc}`);  // Log image source
+  const imageURLs = findAllImageURLs();  // Call the function to find all image URLs
+  const container = document.querySelector('.plugin-image-grid-83a1371d7');  // Get the container where the images and checkboxes will go
+  const templateDiv = document.getElementById('plugin-image-template-div-83a1371d7');  // Get the template div using its unique ID
+  
+  imageURLs.forEach((imageURL) => {
+    const clone = templateDiv.cloneNode(true);  // Clone the template div
     
-    const parentContainer = document.querySelector('.plugin-image-grid-83a1371d7');
-    parentContainer.appendChild(templateDiv);  // Append new div to parent
-    console.log('New div is appended to parent container');  // Log appending
+    // Remove the ID from the cloned div so that it's not duplicated
+    clone.removeAttribute('id');
+    
+    const imgElement = clone.querySelector('img');  // Find the image element inside the cloned div
+    imgElement.src = imageURL;  // Set the image URL
+    
+    container.appendChild(clone);  // Append the cloned div to the container
+  });
+  
+  // Hide the original template div using its unique ID
+  // templateDiv.style.display = 'none';
+}
+
+// New function to handle checkbox toggle
+function toggleCustomCheckbox() {
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  
+  checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener('change', function() {
+      const customCheckbox = this.previousElementSibling;
+      
+      if (this.checked) {
+        customCheckbox.classList.add('checked');
+      } else {
+        customCheckbox.classList.remove('checked');
+      }
+    });
   });
 }
 
