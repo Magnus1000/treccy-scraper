@@ -39,6 +39,7 @@ async function loadDrawer() {
       logImageURLs();
       collectEmails();
       setUsernameText(username);
+      fetchRaceData(username)
       isDrawerInitialized = true;
     }
   } catch (error) {
@@ -260,5 +261,39 @@ function setUsernameText(username) {
     console.log("Username set successfully");  // Log success to console
   } else {
     console.error("Element with class 'plugin-username-text-83a1371d7' not found");  // Log an error message if the element does not exist
+  }
+}
+
+// Fetch race count for the given username
+async function fetchRaceData(username) {
+  // Define the URL for the Vercel function
+  const url = "https://treccy-serverside-magnus1000.vercel.app/api/fetchAirtableData";
+
+  try {
+    // Call the Vercel function and pass the username as a parameter
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username })  // Send the username as a JSON payload
+    });
+
+    // Parse the response to JSON
+    const data = await response.json();
+
+    // Find the div with the specific class
+    const raceCountElement = document.querySelector('.plugin-race-count-83a1371d7');
+
+    // Check if the element exists
+    if (raceCountElement) {
+      // Populate the div with the response data
+      raceCountElement.innerHTML = data.response;  // Assuming the data contains a 'response' field
+      console.log("Race count data populated successfully");  // Log success to console
+    } else {
+      console.error("Element with class 'plugin-race-count-83a1371d7' not found");  // Log an error message if the element does not exist
+    }
+  } catch (error) {
+    console.error("Failed to fetch data:", error);  // Log any errors that occur during the fetch
   }
 }
