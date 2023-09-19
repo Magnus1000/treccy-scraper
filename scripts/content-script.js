@@ -267,8 +267,11 @@ function setUsernameText(username) {
 
 // Fetch race count for the given username
 async function fetchRaceData(username) {
-  // Update the URL to include the username in the query string
-  const url = `https://treccy-serverside-magnus1000.vercel.app/api/fetchAirtableData?username=${username}`;
+  // Get the current domain where the extension is running
+  const raceDomain = window.location.hostname;
+
+  // Update the URL to include the username and raceDomain in the query string
+  const url = `https://treccy-serverside-magnus1000.vercel.app/api/fetchAirtableData?username=${username}&race_domain=${raceDomain}`;
 
   try {
     // Call the Vercel function
@@ -288,8 +291,9 @@ async function fetchRaceData(username) {
     // Check if the element exists
     if (raceCountElement) {
       // Populate the div with the response data
-      raceCountElement.innerHTML = data.count;  // Assuming the data contains a 'response' field
+      raceCountElement.innerHTML = data.count;  // Assuming the data contains a 'count' field
       console.log(`Race count data populated successfully with ${data.count}`);  // Log success to console
+      console.log(`Other races found for this domain: ${data.records}`);  // Log success to console
     } else {
       console.error("Element with class 'plugin-race-count-83a1371d7' not found");  // Log an error message if the element does not exist
     }
