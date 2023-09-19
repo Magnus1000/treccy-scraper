@@ -44,6 +44,9 @@ async function loadDrawer() {
       fetchRaceData(username);
       toggleCustomCheckbox();
       allowSingleMainCheckbox();
+      showHideForm();
+      // Attach an event listener to the dropdown
+      document.getElementById('form-type').addEventListener('change', showHideForm);
       isDrawerInitialized = true;
     }
   } catch (error) {
@@ -293,7 +296,8 @@ async function fetchRaceData(username) {
       // Populate the div with the response data
       raceCountElement.innerHTML = data.count;  // Assuming the data contains a 'count' field
       console.log(`Race count data populated successfully with ${data.count}`);  // Log success to console
-      console.log(`Other races found for this domain: ${JSON.stringify(data.records, null, 2)}`);
+      console.log(`Other races found for this domain: ${JSON.stringify(data.raceRecords, null, 2)}`);
+      console.log(`Sports for dropdown: ${JSON.stringify(data.sportNames, null, 2)}`);
     } else {
       console.error("Element with class 'plugin-race-count-83a1371d7' not found");  // Log an error message if the element does not exist
     }
@@ -374,3 +378,26 @@ function allowSingleMainCheckbox() {
     });
   });
 }
+
+// Function to toggle visibility based on the dropdown selection
+function showHideForm() {
+  // Fetch the selected value from the dropdown
+  const selectedValue = document.getElementById('form-type').value;
+
+  // Get the Race and Course form elements
+  const raceForm = document.getElementById('race-details-form');
+  const courseForm = document.getElementById('course-details-form');
+
+  // Remove any existing 'hidden' classes first
+  raceForm.classList.remove('hidden');
+  courseForm.classList.remove('hidden');
+  
+  // Apply the 'hidden' class based on the selected value
+  if (selectedValue === 'race') {
+      courseForm.classList.add('hidden');
+  } else if (selectedValue === 'course') {
+      raceForm.classList.add('hidden');
+  }
+  
+  console.log(`Selected Value: ${selectedValue}`);
+} 
