@@ -252,12 +252,13 @@ h1 {
 }
 
 .plugin-toggle-row-83a1371d7 {
+  width: 100%;
+  justify-content: flex-end;
   grid-column-gap: 10px;
-  grid-template-rows: auto;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  margin-bottom: 0;
-  display: grid;
+  grid-column: auto;
+  align-items: end;
+  margin-bottom: 10px;
+  display: flex;
 }
 
 .plugin-horizontal-line-83a1371d7 {
@@ -447,7 +448,8 @@ h1 {
   padding-right: 5px;
   display: flex;
   position: relative;
-  background-color: #fbf8ef;
+  background-color: #1b2b1c;
+  color: #fbf8ef;
   border-radius: 10px;
 }
 

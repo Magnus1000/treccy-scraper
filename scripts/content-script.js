@@ -48,6 +48,8 @@ async function loadDrawer() {
       // Attach an event listener to the dropdown
       document.getElementById('form-type').addEventListener('change', showHideForm);
       attachRaceNameListener();
+      toggleAdditionalSportsVisibility();
+      attachRefreshButtonListener();
       isDrawerInitialized = true;
     }
   } catch (error) {
@@ -193,6 +195,14 @@ function attachCreateRaceButtonListener() {
   }
 }
 
+// Variable to hold the currently selected text
+let currentHighlightedText = '';
+
+// Update currentHighlightedText whenever text is selected or deselected
+document.addEventListener('selectionchange', function() {
+  currentHighlightedText = window.getSelection().toString();
+});
+
 function attachHighlightButtonListeners() {
   // Find all buttons with the specific class
   const buttons = document.querySelectorAll('.plugin-highlight-button-83a1371d7');
@@ -200,15 +210,22 @@ function attachHighlightButtonListeners() {
   // Loop through each button and add a click event listener
   buttons.forEach((button) => {
     button.addEventListener('click', function() {
-      // Get the highlighted text on the page
-      const highlightedText = window.getSelection().toString();
-      console.log("Highlighted Text: ", highlightedText); // Log the highlighted text
+      // Log the stored highlighted text
+      console.log("Highlighted Text: ", currentHighlightedText);
       
-      // Find the corresponding input field. You may need to modify this to find the correct input field.
-      const inputField = button.nextElementSibling;
+      // Find the closest wrapper div for this button
+      const parentWrapper = button.closest('.plugin-input-field-wrapper-83a1371d7, .plugin-text-area-wrapper-83a1371d7');
       
-      // Set the input field's value to the highlighted text
-      inputField.value = highlightedText;
+      // Find the input or textarea field inside the parent wrapper div
+      const inputField = parentWrapper.querySelector('.plugin-input-fields-83a1371d7, .plugin-text-area-input-83a1371d7');
+
+      // Check if the inputField or textarea exists
+      if (inputField) {
+        // Set the input or textarea field's value to the highlighted text
+        inputField.value = currentHighlightedText;
+      } else {
+        console.log("Input or textarea field not found"); // Log error if neither is found
+      }
     });
   });
 }
@@ -269,98 +286,101 @@ function setUsernameText(username) {
   }
 }
 
-  // Fetch race count for the given username
-  async function fetchRaceData(username) {
-    // Get the current domain where the extension is running
-    const raceDomain = window.location.hostname;
+// Fetch race count for the given username
+async function fetchRaceData(username) {
+  // Get the current domain where the extension is running
+  const raceDomain = window.location.hostname;
 
-    // Update the URL to include the username and raceDomain in the query string
-    const url = `https://treccy-serverside-magnus1000.vercel.app/api/fetchAirtableData?username=${username}&race_domain=${raceDomain}`;
+  // Update the URL to include the username and raceDomain in the query string
+  const url = `https://treccy-serverside-magnus1000.vercel.app/api/fetchAirtableData?username=${username}&race_domain=${raceDomain}`;
 
-    try {
-      // Call the Vercel function
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        }
+  try {
+    // Call the Vercel function
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    // Parse the response to JSON
+    const data = await response.json();
+
+    // Find the div with the specific class
+    const raceCountElement = document.querySelector('.plugin-race-count-83a1371d7');
+
+    // Check if the element exists
+    if (raceCountElement) {
+      // Populate the div with the response data
+      raceCountElement.innerHTML = data.count;
+      console.log(`Race count data populated successfully with ${data.count}`);
+      console.log(`Other races found for this domain: ${JSON.stringify(data.raceRecords, null, 2)}`);
+      console.log(`Sports for dropdown: ${JSON.stringify(data.sportNames, null, 2)}`);
+    } else {
+      console.error("Element with class 'plugin-race-count-83a1371d7' not found");
+    }
+
+    // Find the race name dropdown by ID
+    const dropdownElement = document.getElementById("plugin-course-form-race-name");
+
+    // Check if the dropdown element exists
+    if (dropdownElement) {
+      // Clear existing options
+      dropdownElement.innerHTML = '';
+
+      // Populate dropdown with race names
+      data.raceRecords.forEach(record => {
+        const option = document.createElement('option');
+        option.value = record.airtable_record_id_at;
+        option.textContent = record.name_at;
+        dropdownElement.appendChild(option);
       });
 
-      // Parse the response to JSON
-      const data = await response.json();
+      console.log('Populated the race name dropdown successfully.');
+      attachRaceNameListener();
 
-      // Find the div with the specific class
-      const raceCountElement = document.querySelector('.plugin-race-count-83a1371d7');
-
-      // Check if the element exists
-      if (raceCountElement) {
-        // Populate the div with the response data
-        raceCountElement.innerHTML = data.count;
-        console.log(`Race count data populated successfully with ${data.count}`);
-        console.log(`Other races found for this domain: ${JSON.stringify(data.raceRecords, null, 2)}`);
-        console.log(`Sports for dropdown: ${JSON.stringify(data.sportNames, null, 2)}`);
-      } else {
-        console.error("Element with class 'plugin-race-count-83a1371d7' not found");
-      }
-
-      // Find the race name dropdown by ID
-      const dropdownElement = document.getElementById("plugin-course-form-race-name");
-
-      // Check if the dropdown element exists
-      if (dropdownElement) {
-        // Clear existing options
-        dropdownElement.innerHTML = '';
-
-        // Populate dropdown with race names
-        data.raceRecords.forEach(record => {
-          const option = document.createElement('option');
-          option.value = record.airtable_record_id_at;
-          option.textContent = record.name_at;
-          dropdownElement.appendChild(option);
-        });
-
-        console.log('Populated the race name dropdown successfully.');
-        attachRaceNameListener();
-
-      } else {
-        console.error("Element with ID 'plugin-course-form-race-name' not found");
-      }
-
-      // Find all sports dropdowns by data-type attribute
-      const sportsDropdowns = document.querySelectorAll('select[data-type="sport"]');
-
-      // Check if there are any dropdowns
-      if (sportsDropdowns.length > 0) {
-        sportsDropdowns.forEach(dropdown => {
-          // Clear existing options
-          dropdown.innerHTML = '';
-
-          // Add placeholder option
-          const placeholderOption = document.createElement('option');
-          placeholderOption.value = '';
-          placeholderOption.textContent = 'Select sport';
-          placeholderOption.selected = true;
-          placeholderOption.disabled = true;
-          dropdown.appendChild(placeholderOption);
-
-          // Populate dropdown with sport names
-          data.sportNames.forEach(sport => {
-            const option = document.createElement('option');
-            option.value = sport;
-            option.textContent = sport;
-            dropdown.appendChild(option);
-          });
-        });
-
-        console.log('Populated the sports dropdowns successfully.');
-      } else {
-        console.error('No elements with data-type "sport" found');
-      }
-
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
+    } else {
+      console.error("Element with ID 'plugin-course-form-race-name' not found");
     }
+
+    // Find all sports dropdowns by data-type attribute
+    const sportsDropdowns = document.querySelectorAll('select[data-type="sport"]');
+
+    // Check if there are any dropdowns
+    if (sportsDropdowns.length > 0) {
+      sportsDropdowns.forEach(dropdown => {
+        // Clear existing options
+        dropdown.innerHTML = '';
+
+        // Add placeholder option
+        const placeholderOption = document.createElement('option');
+        placeholderOption.value = '';
+        placeholderOption.textContent = 'Select sport';
+        placeholderOption.selected = true;
+        placeholderOption.disabled = true;
+        dropdown.appendChild(placeholderOption);
+
+        // Populate dropdown with sport names
+        data.sportNames.forEach(sport => {
+          const option = document.createElement('option');
+          option.value = sport;
+          option.textContent = sport;
+          dropdown.appendChild(option);
+        });
+      });
+
+      console.log('Populated the sports dropdowns successfully.');
+    } else {
+      console.error('No elements with data-type "sport" found');
+    }
+
+  } catch (error) {
+    console.error("Failed to fetch data:", error);
   }
+}
+
+// Initialize a Set to hold image URLs that have been added
+const addedImageURLs = new Set();
 
 // Function to find all image URLs on the page
 function findAllImageURLs() {
@@ -382,20 +402,30 @@ function findAllImageURLs() {
 
 // Function to add multiple images and checkboxes
 function addImageAndCheckboxes() {
-  const imageURLs = findAllImageURLs();  // Call the function to find all image URLs
-  const container = document.querySelector('.plugin-image-grid-83a1371d7');  // Get the container where the images and checkboxes will go
-  const templateDiv = document.getElementById('plugin-image-template-div-83a1371d7');  // Get the template div using its unique ID
+  console.log("Adding images and checkboxes"); // Log function call
+  const imageURLs = findAllImageURLs(); // Call the function to find all image URLs
+  const container = document.querySelector('.plugin-image-grid-83a1371d7'); // Get the container where the images and checkboxes will go
+  const templateDiv = document.getElementById('plugin-image-template-div-83a1371d7'); // Get the template div using its unique ID
   
   imageURLs.forEach((imageURL) => {
-    const clone = templateDiv.cloneNode(true);  // Clone the template div
-    
-    // Remove the ID from the cloned div so that it's not duplicated
-    clone.removeAttribute('id');
-    
-    const imgElement = clone.querySelector('img');  // Find the image element inside the cloned div
-    imgElement.src = imageURL;  // Set the image URL
-    
-    container.appendChild(clone);  // Append the cloned div to the container
+    // Check if the imageURL has not been added yet
+    if (!addedImageURLs.has(imageURL)) {
+      const clone = templateDiv.cloneNode(true); // Clone the template div
+
+      // Remove the ID from the cloned div so that it's not duplicated
+      clone.removeAttribute('id');
+      
+      const imgElement = clone.querySelector('img'); // Find the image element inside the cloned div
+      imgElement.src = imageURL; // Set the image URL
+      
+      container.appendChild(clone); // Append the cloned div to the container
+
+      // Add this imageURL to the set of added image URLs
+      addedImageURLs.add(imageURL);
+      console.log(`Added new image URL: ${imageURL}`); // Log the new addition
+    } else {
+      console.log(`Image URL already added: ${imageURL}`); // Log that this imageURL was skipped
+    }
   });
 }
 
@@ -513,3 +543,67 @@ function attachRaceNameListener() {
 window.addEventListener('load', function() {
   attachRaceNameListener();
 });
+
+// Function to toggle hidden class for additional sports div
+function toggleAdditionalSportsVisibility() {
+  // Log function initialization
+  console.log("toggleAdditionalSportsVisibility function initialized");
+
+  // Get the button element by its id
+  const showMoreSportsButton = document.getElementById('plugin-show-more-sports-button-83a1371d7');
+
+  // Log if the button was found or not
+  if (showMoreSportsButton) {
+    console.log("Successfully retrieved showMoreSportsButton element");
+  } else {
+    console.log("Failed to retrieve showMoreSportsButton element");
+    return; // Exit the function if the element isn't found
+  }
+
+  // Get the div element where we want to toggle the hidden class
+  const additionalSportsDiv = document.getElementById('plugin-course-form-additional-sports-83a1371d7');
+
+  // Log if the div was found or not
+  if (additionalSportsDiv) {
+    console.log("Successfully retrieved additionalSportsDiv element");
+  } else {
+    console.log("Failed to retrieve additionalSportsDiv element");
+    return; // Exit the function if the element isn't found
+  }
+
+  // Attach an event listener to the button
+  showMoreSportsButton.addEventListener('click', function() {
+    // Log when the button is clicked
+    console.log("Show More Sports button clicked");
+
+    // Toggle the 'hidden' class on the additionalSportsDiv
+    additionalSportsDiv.classList.toggle('hidden');
+
+    // Update the button text based on whether the div is hidden or not
+    if (additionalSportsDiv.classList.contains('hidden')) {
+      showMoreSportsButton.textContent = "Expand Sports";
+      console.log("additionalSportsDiv is now hidden");
+    } else {
+      showMoreSportsButton.textContent = "Close Sports";
+      console.log("additionalSportsDiv is now visible");
+    }
+  });
+
+  // Log that the event listener has been attached
+  console.log("Event listener attached to showMoreSportsButton");
+}
+
+// Function to attach event listener to the refresh button
+function attachRefreshButtonListener() {
+  const refreshButton = document.getElementById('plugin-refresh-images-button-83a1371d7'); // Get refresh button by ID
+
+  // Attach event listener for click event
+  refreshButton.addEventListener('click', function() {
+    console.log("Refresh images button clicked"); // Log button click
+    addImageAndCheckboxes(); // Call the function to add images and checkboxes
+    toggleCustomCheckbox();
+    allowSingleMainCheckbox();
+  });
+
+  console.log("Event listener attached to refresh button"); // Log that the event listener has been attached
+}
