@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-// Function to attach the event listener and perform the data submission
+// Function to attach the event listener to the create race button and perform the data submission
 function attachCreateRaceButtonListener() {
   console.log('Attaching listener to create-race-button-83a1371d7');
   
@@ -169,6 +169,7 @@ function attachCreateRaceButtonListener() {
         jsonData[element.id] = element.value;
       });
 
+      jsonData.formType = "race";
       jsonData.start_time = start_time;
       jsonData.end_time = end_time;
       jsonData.mainImageURL = mainImageURL;
@@ -194,6 +195,80 @@ function attachCreateRaceButtonListener() {
     });
   } else {
     console.error('Element with ID = create-race-button-83a1371d7 not found');
+  }
+}
+
+// Function to attach the event listener to the create course button and perform the data submission
+function attachCreateCourseButtonListener() {
+  console.log('Attaching listener to create-course-button-83a1371d7');
+  
+  const createRaceButton = document.getElementById('create-course-button-83a1371d7');
+  
+  if (createRaceButton) {
+    console.log('create-course-button-83a1371d7 element found');
+    
+    createRaceButton.addEventListener('click', async () => {
+      console.log('create-course-button-83a1371d7 clicked');
+
+      //const start_time = "YourStartConstantHere";
+      const end_time = getCurrentFormattedTime();
+      //const username = "YourUsernameConstantHere";
+
+      console.log(`Finished at ${end_time}`);
+
+      let jsonData = {};
+
+      const getImgUrlFromParent = (checkbox) => {
+        const parentDiv = checkbox.closest('.plugin-image-and-checkbox-wrapper-83a1371d7');
+        const imgElement = parentDiv.querySelector('.plugin-image-83a1371d7');
+        return imgElement ? imgElement.src : "";
+      };
+
+      // Find checked checkbox for main course photo
+      const mainCheckbox = document.querySelector('input[data-type="course-main"]:checked');
+      const mainImageURL = mainCheckbox ? getImgUrlFromParent(mainCheckbox) : "";
+
+      // Find checked checkboxes for course gallery photos and get their URLs
+      const galleryCheckboxes = document.querySelectorAll('input[data-type="course-gallery"]:checked');
+      const galleryImageURLs = Array.from(galleryCheckboxes).map(cb => getImgUrlFromParent(cb));
+
+      // Find checked checkboxes for course map and get their URLs
+      const mapCheckboxes = document.querySelectorAll('input[data-type="course-map"]:checked');
+      const mapImageURLs = Array.from(mapCheckboxes).map(cb => getImgUrlFromParent(cb));
+
+      const formElements = document.querySelectorAll('input, textarea');
+      
+      formElements.forEach((element) => {
+        jsonData[element.id] = element.value;
+      });
+
+      jsonData.formType = "course";
+      jsonData.start_time = start_time;
+      jsonData.end_time = end_time;
+      jsonData.mainImageURL = mainImageURL;
+      jsonData.galleryImageURLs = galleryImageURLs;
+      jsonData.mapImageURLs = mapImageURLs;
+      jsonData.username = username;
+
+      console.log('Collected JSON data:', jsonData);
+
+      try {
+        const response = await fetch('https://treccy-serverside-magnus1000.vercel.app/api/pluginCreateData', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(jsonData),
+        });
+
+        const result = await response.json();
+        console.log('Server response:', result);
+      } catch (error) {
+        console.error('Error sending data:', error);
+      }
+    });
+  } else {
+    console.error('Element with ID = create-course-button-83a1371d7 not found');
   }
 }
 
