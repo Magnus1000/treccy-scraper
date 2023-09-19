@@ -48,6 +48,7 @@ async function loadDrawer() {
       // Attach an event listener to the dropdown
       document.getElementById('form-type').addEventListener('change', showHideForm);
       attachRaceNameListener();
+      setupSearchSuggestions('race-location', 'plugin-race-location-suggestions-83a1371d7');
       toggleAdditionalSportsVisibility();
       attachRefreshButtonListener('plugin-refresh-race-images-button-83a1371d7','plugin-race-image-grid-83a1371d7','plugin-race-image-template-div-83a1371d7');
       attachRefreshButtonListener('plugin-refresh-course-images-button-83a1371d7','plugin-course-image-grid-83a1371d7','plugin-course-image-template-div-83a1371d7');
@@ -626,19 +627,36 @@ async function setupSearchSuggestions(searchInputId, suggestionsBoxId) {
   const searchInput = document.getElementById(searchInputId);
   const suggestionsBox = document.getElementById(suggestionsBoxId);
 
+  // Log to confirm elements have been found
+  if (searchInput) {
+    console.log("Search Input element found.");
+  } else {
+    console.log("Search Input element not found.");
+  }
+
+  if (suggestionsBox) {
+    console.log("Suggestions Box element found.");
+  } else {
+    console.log("Suggestions Box element not found.");
+  }
+
   searchInput.addEventListener('input', async (e) => {
+    console.log("Input event triggered."); // Log when input event is triggered
     const query = e.target.value.trim();
 
     if (query === "") {
       suggestionsBox.innerHTML = "";
       suggestionsBox.classList.remove('active');
       suggestionsBox.style.display = "none";
+      console.log("Query is empty, suggestions hidden."); // Log empty query case
       return;
     }
 
     try {
       const response = await fetch(`https://treccy-serverside-magnus1000.vercel.app/api/mapBoxSearchSuggestions?q=${query}`);
       const data = await response.json();
+      
+      console.log("Data received:", data); // Log the data received
 
       if (data.suggestions && data.suggestions.length > 0) {
         suggestionsBox.classList.add('active');
@@ -646,6 +664,8 @@ async function setupSearchSuggestions(searchInputId, suggestionsBoxId) {
         suggestionsBox.innerHTML = "";
 
         const suggestions = data.suggestions;
+        console.log(`Found ${suggestions.length} suggestions.`); // Log number of suggestions found
+
         suggestions.forEach(suggestion => {
           const placeName = suggestion.place_name;
           const suggestionItem = document.createElement('div');
@@ -665,14 +685,17 @@ async function setupSearchSuggestions(searchInputId, suggestionsBoxId) {
             suggestionsBox.innerHTML = "";
             suggestionsBox.classList.remove('active');
             suggestionsBox.style.display = "none";
+            
+            console.log("Suggestion clicked and input filled."); // Log when suggestion is clicked
           });
         });
       } else {
         suggestionsBox.classList.remove('active');
         suggestionsBox.style.display = "none";
+        console.log("No suggestions found."); // Log when no suggestions are available
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error:", error); // Log any errors
       suggestionsBox.classList.remove('active');
       suggestionsBox.style.display = "none";
     }

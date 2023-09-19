@@ -159,6 +159,7 @@ h1 {
 }
 
 .plugin-suggestion-dropdown-wrapper-83a1371d7 {
+  width: 100%;
   z-index: 4002;
   grid-row-gap: 10px;
   color: rgba(10, 15, 13, .9);
@@ -167,7 +168,7 @@ h1 {
   border: 1px solid #e6e4d5;
   border-radius: 5px;
   flex-direction: column;
-  padding: 12px;
+  padding: 10px;
   font-family: Rubik, sans-serif;
   display: none;
   position: absolute;
@@ -175,11 +176,12 @@ h1 {
 }
 
 .plugin-suggestion-item-83a1371d7 {
+  font-size: 14px;
   grid-column-gap: 10px;
   color: #1b2b1c;
   border-radius: 5px;
   align-items: center;
-  padding: 4px;
+  padding: 10px 5px;
   display: flex;
 }
 
