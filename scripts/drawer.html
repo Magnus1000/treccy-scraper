@@ -85,10 +85,14 @@
     </div>
     <div id="course-details-form" class="plugin-form-wrapper-83a1371d7 hidden">
         <form id="wf-form-race-details-form" name="wf-form-race-details-form" data-name="course-details-form" method="get" class="plugin-form-83a1371d7" data-wf-page-id="65045320e7e2a249582b052f" data-wf-element-id="515d6add-10a5-986d-5840-d9a56534c299">
-        <div class="plugin-input-field-wrapper-83a1371d7"><input type="text" class="plugin-input-fields-83a1371d7" autocomplete="off" maxlength="256" name="plugin-course-form-race-name" data-name="plugin-course-form-race-name" placeholder="Ashburton Triathlon" id="plugin-course-form-race-name-83a1371d7" required=""><label for="field" class="plugin-form-label-83a1371d7">Race Name</label>
-            <div button-type="highlight" class="plugin-highlight-button-83a1371d7">
-            <div class="plugin-font-awesome-icon-83a1371d7"><i class="fa-light fa-highlighter"></i></div>
-            </div>
+        <div class="plugin-input-field-wrapper-83a1371d7">
+            <select class="plugin-input-fields-83a1371d7" name="plugin-course-form-race-name" data-name="plugin-course-form-race-name" id="plugin-course-form-race-name" required>
+              <!-- The options will be added by JavaScript -->
+            </select>
+            <label for="field" class="plugin-form-label-83a1371d7">Race Name</label>
+        </div>
+        <div class="plugin-input-field-wrapper-83a1371d7">
+            <div class="plugin-display-record-id-83a1371d7">Record ID: <span id="record-id-83a1371d7"></span>
         </div>
         <div class="plugin-input-field-wrapper-83a1371d7"><input type="text" class="plugin-input-fields-83a1371d7" autocomplete="off" maxlength="256" name="course-name" data-name="course-name" placeholder="Ashburton Triathlon" id="plugin-course-form-race-name-83a1371d7" required=""><label for="field" class="plugin-form-label-83a1371d7">Course Name</label>
             <div button-type="highlight" class="plugin-highlight-button-83a1371d7">
@@ -103,7 +107,7 @@
         <div class="plugin-input-field-wrapper-83a1371d7"><input type="date" class="plugin-input-fields-83a1371d7" autocomplete="off" maxlength="256" name="course-date" data-name="course-date" placeholder="Select date" id="course-date"><label for="field" class="plugin-form-label-83a1371d7">Date</label></div>
         <div class="plugin-input-field-wrapper-83a1371d7"><input type="time" class="plugin-input-fields-83a1371d7" autocomplete="off" maxlength="256" name="course-time" data-name="course-time" placeholder="Select time" id="course-time" required=""><label for="field" class="plugin-form-label-83a1371d7">Time</label></div>
         <div class="plugin-input-field-wrapper-83a1371d7">
-            <select class="plugin-input-fields-83a1371d7" name="sport-1" data-name="sport-1" id="sport-1" required>
+            <select class="plugin-input-fields-83a1371d7" name="sport-1" data-type="sport" id="sport-1" required>
               <!-- The options will be added by JavaScript -->
             </select>
             <label for="field" class="plugin-form-label-83a1371d7">Sport 1</label>

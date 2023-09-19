@@ -268,43 +268,96 @@ function setUsernameText(username) {
   }
 }
 
-// Fetch race count for the given username
-async function fetchRaceData(username) {
-  // Get the current domain where the extension is running
-  const raceDomain = window.location.hostname;
+  // Fetch race count for the given username
+  async function fetchRaceData(username) {
+    // Get the current domain where the extension is running
+    const raceDomain = window.location.hostname;
 
-  // Update the URL to include the username and raceDomain in the query string
-  const url = `https://treccy-serverside-magnus1000.vercel.app/api/fetchAirtableData?username=${username}&race_domain=${raceDomain}`;
+    // Update the URL to include the username and raceDomain in the query string
+    const url = `https://treccy-serverside-magnus1000.vercel.app/api/fetchAirtableData?username=${username}&race_domain=${raceDomain}`;
 
-  try {
-    // Call the Vercel function
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    try {
+      // Call the Vercel function
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      // Parse the response to JSON
+      const data = await response.json();
+
+      // Find the div with the specific class
+      const raceCountElement = document.querySelector('.plugin-race-count-83a1371d7');
+
+      // Check if the element exists
+      if (raceCountElement) {
+        // Populate the div with the response data
+        raceCountElement.innerHTML = data.count;
+        console.log(`Race count data populated successfully with ${data.count}`);
+        console.log(`Other races found for this domain: ${JSON.stringify(data.raceRecords, null, 2)}`);
+        console.log(`Sports for dropdown: ${JSON.stringify(data.sportNames, null, 2)}`);
+      } else {
+        console.error("Element with class 'plugin-race-count-83a1371d7' not found");
       }
-    });
 
-    // Parse the response to JSON
-    const data = await response.json();
+      // Find the race name dropdown by ID
+      const dropdownElement = document.getElementById("plugin-course-form-race-name");
 
-    // Find the div with the specific class
-    const raceCountElement = document.querySelector('.plugin-race-count-83a1371d7');
+      // Check if the dropdown element exists
+      if (dropdownElement) {
+        // Clear existing options
+        dropdownElement.innerHTML = '';
 
-    // Check if the element exists
-    if (raceCountElement) {
-      // Populate the div with the response data
-      raceCountElement.innerHTML = data.count;  // Assuming the data contains a 'count' field
-      console.log(`Race count data populated successfully with ${data.count}`);  // Log success to console
-      console.log(`Other races found for this domain: ${JSON.stringify(data.raceRecords, null, 2)}`);
-      console.log(`Sports for dropdown: ${JSON.stringify(data.sportNames, null, 2)}`);
-    } else {
-      console.error("Element with class 'plugin-race-count-83a1371d7' not found");  // Log an error message if the element does not exist
+        // Populate dropdown with race names
+        data.raceRecords.forEach(record => {
+          const option = document.createElement('option');
+          option.value = record.name_at;
+          option.textContent = record.name_at;
+          dropdownElement.appendChild(option);
+        });
+
+        console.log('Populated the race name dropdown successfully.');
+      } else {
+        console.error("Element with ID 'plugin-course-form-race-name' not found");
+      }
+
+      // Find all sports dropdowns by data-type attribute
+      const sportsDropdowns = document.querySelectorAll('select[data-type="sport"]');
+
+      // Check if there are any dropdowns
+      if (sportsDropdowns.length > 0) {
+        sportsDropdowns.forEach(dropdown => {
+          // Clear existing options
+          dropdown.innerHTML = '';
+
+          // Add placeholder option
+          const placeholderOption = document.createElement('option');
+          placeholderOption.value = '';
+          placeholderOption.textContent = 'Select sport';
+          placeholderOption.selected = true;
+          placeholderOption.disabled = true;
+          dropdown.appendChild(placeholderOption);
+
+          // Populate dropdown with sport names
+          data.sportNames.forEach(sport => {
+            const option = document.createElement('option');
+            option.value = sport;
+            option.textContent = sport;
+            dropdown.appendChild(option);
+          });
+        });
+
+        console.log('Populated the sports dropdowns successfully.');
+      } else {
+        console.error('No elements with data-type "sport" found');
+      }
+
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
     }
-  } catch (error) {
-    console.error("Failed to fetch data:", error);  // Log any errors that occur during the fetch
   }
-}
 
 // Function to find all image URLs on the page
 function findAllImageURLs() {
