@@ -35,6 +35,7 @@ async function loadDrawer() {
     if (!isDrawerInitialized) {
       initializeExpandCollapse();
       attachCreateRaceButtonListener();
+      attachCreateCourseButtonListener();
       attachHighlightButtonListeners();
       prepopulateWebsiteUrl();
       startTimer();
