@@ -243,6 +243,36 @@ h1 {
   margin-bottom: 0;
 }
 
+.plugin-toggle-text-83a1371d7 {
+  color: #1b2b1c;
+  align-self: center;
+  margin-bottom: 0;
+  display: flex;
+  position: relative;
+}
+
+.plugin-toggle-row-83a1371d7 {
+  grid-column-gap: 10px;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  margin-bottom: 0;
+  display: grid;
+}
+
+.plugin-horizontal-line-83a1371d7 {
+  width: 80%;
+  height: 1px;
+  background-color: #e6e4d5;
+  padding-left: 20%;
+  padding-right: 20%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  align-self: center;
+}
+
 .plugin-text-area-input-83a1371d7 {
   width: 100%;
   max-width: 100%;
