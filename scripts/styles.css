@@ -589,13 +589,20 @@ input[type="checkbox"] {
 }
 
 .plugin-refresh-images-wrapper-83a1371d7 {
-  display: flex;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    margin: 20px;
 }
 
 .plugin-button-create-wrapper-83a1371d7 {
   padding: 20px 10px;
   position: relative;
   top: 180px;
+}
+
+.highlight {
+  padding-right: 48px;
 }
 
 .plugin-button-primary-83a1371d7 {

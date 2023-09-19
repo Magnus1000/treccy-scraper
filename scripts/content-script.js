@@ -38,7 +38,7 @@ async function loadDrawer() {
       attachHighlightButtonListeners();
       prepopulateWebsiteUrl();
       startTimer();
-      addImageAndCheckboxes();
+      addImageAndCheckboxes('plugin-race-image-grid-83a1371d7','plugin-race-image-template-div-83a1371d7');
       collectEmails();
       setUsernameText(username);
       fetchRaceData(username);
@@ -49,7 +49,8 @@ async function loadDrawer() {
       document.getElementById('form-type').addEventListener('change', showHideForm);
       attachRaceNameListener();
       toggleAdditionalSportsVisibility();
-      attachRefreshButtonListener();
+      attachRefreshButtonListener('plugin-refresh-race-images-button-83a1371d7','plugin-race-image-grid-83a1371d7','plugin-race-image-template-div-83a1371d7');
+      attachRefreshButtonListener('plugin-refresh-course-images-button-83a1371d7','plugin-course-image-grid-83a1371d7','plugin-course-image-template-div-83a1371d7');
       isDrawerInitialized = true;
     }
   } catch (error) {
@@ -195,38 +196,49 @@ function attachCreateRaceButtonListener() {
   }
 }
 
-// Variable to hold the currently selected text
-let currentHighlightedText = '';
+// Declare a variable to hold the highlighted text
+let highlightedText = "";
 
-// Update currentHighlightedText whenever text is selected or deselected
-document.addEventListener('selectionchange', function() {
-  currentHighlightedText = window.getSelection().toString();
-});
+// Function to update highlighted text
+function updateHighlightedText() {
+  highlightedText = window.getSelection().toString();
+}
+
+// Function for mousedown event
+function handleMousedown(event) {
+  event.preventDefault();
+  console.log("Highlighted Text:", highlightedText);
+
+  // Find the closest wrapper div for this button
+  const parentWrapper = event.target.closest('.plugin-input-field-wrapper-83a1371d7, .plugin-text-area-wrapper-83a1371d7');
+
+  // Find the input or textarea field inside the parent wrapper div
+  const inputField = parentWrapper.querySelector('.plugin-input-fields-83a1371d7, .plugin-text-area-input-83a1371d7');
+
+  // Check if the inputField or textarea exists
+  if (inputField) {
+    // Set the input or textarea field's value to the highlighted text
+    inputField.value = highlightedText;
+  } else {
+    console.log("Input or textarea field not found"); // Log error if neither is found
+  }
+}
 
 function attachHighlightButtonListeners() {
-  // Find all buttons with the specific class
-  const buttons = document.querySelectorAll('.plugin-highlight-button-83a1371d7');
-  
-  // Loop through each button and add a click event listener
-  buttons.forEach((button) => {
-    button.addEventListener('click', function() {
-      // Log the stored highlighted text
-      console.log("Highlighted Text: ", currentHighlightedText);
-      
-      // Find the closest wrapper div for this button
-      const parentWrapper = button.closest('.plugin-input-field-wrapper-83a1371d7, .plugin-text-area-wrapper-83a1371d7');
-      
-      // Find the input or textarea field inside the parent wrapper div
-      const inputField = parentWrapper.querySelector('.plugin-input-fields-83a1371d7, .plugin-text-area-input-83a1371d7');
+  // Remove any existing selectionchange event listener
+  document.removeEventListener('selectionchange', updateHighlightedText);
 
-      // Check if the inputField or textarea exists
-      if (inputField) {
-        // Set the input or textarea field's value to the highlighted text
-        inputField.value = currentHighlightedText;
-      } else {
-        console.log("Input or textarea field not found"); // Log error if neither is found
-      }
-    });
+  // Attach new selectionchange event listener
+  document.addEventListener('selectionchange', updateHighlightedText);
+
+  const buttons = document.querySelectorAll('.plugin-highlight-button-83a1371d7');
+
+  buttons.forEach((button) => {
+    // Remove any existing mousedown event listener
+    button.removeEventListener('mousedown', handleMousedown);
+
+    // Attach new mousedown event listener
+    button.addEventListener('mousedown', handleMousedown);
   });
 }
 
@@ -400,13 +412,14 @@ function findAllImageURLs() {
   return imageURLs;  // Return the array of image URLs
 }
 
-// Function to add multiple images and checkboxes
-function addImageAndCheckboxes() {
-  console.log("Adding images and checkboxes"); // Log function call
-  const imageURLs = findAllImageURLs(); // Call the function to find all image URLs
-  const container = document.querySelector('.plugin-image-grid-83a1371d7'); // Get the container where the images and checkboxes will go
-  const templateDiv = document.getElementById('plugin-image-template-div-83a1371d7'); // Get the template div using its unique ID
+// Function to add multiple images and checkboxes, now accepts container and template IDs as parameters
+function addImageAndCheckboxes(containerID, templateDivID) {
+  console.log(`Adding images and checkboxes to container: ${containerID}`); // Log function call
   
+  const imageURLs = findAllImageURLs(); // Call the function to find all image URLs
+  const container = document.getElementById(containerID); // Get the container where the images and checkboxes will go
+  const templateDiv = document.getElementById(templateDivID); // Get the template div using its ID from the parameter
+
   imageURLs.forEach((imageURL) => {
     // Check if the imageURL has not been added yet
     if (!addedImageURLs.has(imageURL)) {
@@ -414,7 +427,7 @@ function addImageAndCheckboxes() {
 
       // Remove the ID from the cloned div so that it's not duplicated
       clone.removeAttribute('id');
-      
+
       const imgElement = clone.querySelector('img'); // Find the image element inside the cloned div
       imgElement.src = imageURL; // Set the image URL
       
@@ -594,13 +607,13 @@ function toggleAdditionalSportsVisibility() {
 }
 
 // Function to attach event listener to the refresh button
-function attachRefreshButtonListener() {
-  const refreshButton = document.getElementById('plugin-refresh-images-button-83a1371d7'); // Get refresh button by ID
+function attachRefreshButtonListener(buttonID, containerID, templateDivID) {
+  const refreshButton = document.getElementById(buttonID); // Get refresh button by ID
 
   // Attach event listener for click event
   refreshButton.addEventListener('click', function() {
     console.log("Refresh images button clicked"); // Log button click
-    addImageAndCheckboxes(); // Call the function to add images and checkboxes
+    addImageAndCheckboxes(containerID, templateDivID); // Call the function to add images and checkboxes
     toggleCustomCheckbox();
     allowSingleMainCheckbox();
   });
