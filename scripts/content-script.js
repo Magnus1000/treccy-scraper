@@ -293,7 +293,7 @@ async function fetchRaceData(username) {
       // Populate the div with the response data
       raceCountElement.innerHTML = data.count;  // Assuming the data contains a 'count' field
       console.log(`Race count data populated successfully with ${data.count}`);  // Log success to console
-      console.log(`Other races found for this domain: ${data.records}`);  // Log success to console
+      console.log(`Other races found for this domain: ${JSON.stringify(data.records, null, 2)}`);
     } else {
       console.error("Element with class 'plugin-race-count-83a1371d7' not found");  // Log an error message if the element does not exist
     }
