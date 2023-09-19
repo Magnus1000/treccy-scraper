@@ -334,14 +334,15 @@ h1 {
 }
 
 .plugin-timer-div-wrapper-83a1371d7 {
-  height: 40px;
-  max-width: 30%;
-  border: 1px solid #e6e4d5;
-  border-radius: 5px;
-  flex: 1;
-  justify-content: space-between;
-  display: flex;
-  position: relative;
+    padding: 5px;
+    gap: 5px;
+    max-width: fit-content;
+    border: 1px solid #e6e4d5;
+    border-radius: 5px;
+    flex: auto;
+    justify-content: flex-start;
+    display: flex;
+    position: relative;
 }
 
 .plugin-timer-div-83a1371d7 {
@@ -349,11 +350,7 @@ h1 {
   align-self: center;
   align-items: center;
   display: flex;
-  position: absolute;
-  top: 0%;
-  bottom: 0%;
-  left: auto;
-  right: 10%;
+  position: relative;
 }
 
 .plugin-font-awesome-icon-83a1371d7 {
@@ -366,6 +363,8 @@ h1 {
 }
 
 .plugin-timer-time-83a1371d7 {
+  display: flex;
+  position: relative;
   color: #1b2b1c;
   justify-content: center;
   align-items: center;
