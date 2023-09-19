@@ -621,3 +621,60 @@ function attachRefreshButtonListener(buttonID, containerID, templateDivID) {
   console.log("Event listener attached to refresh button"); // Log that the event listener has been attached
 }
 
+// Function to setup search suggestions
+async function setupSearchSuggestions(searchInputId, suggestionsBoxId) {
+  const searchInput = document.getElementById(searchInputId);
+  const suggestionsBox = document.getElementById(suggestionsBoxId);
+
+  searchInput.addEventListener('input', async (e) => {
+    const query = e.target.value.trim();
+
+    if (query === "") {
+      suggestionsBox.innerHTML = "";
+      suggestionsBox.classList.remove('active');
+      suggestionsBox.style.display = "none";
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://treccy-serverside-magnus1000.vercel.app/api/mapBoxSearchSuggestions?q=${query}`);
+      const data = await response.json();
+
+      if (data.suggestions && data.suggestions.length > 0) {
+        suggestionsBox.classList.add('active');
+        suggestionsBox.style.display = "flex";
+        suggestionsBox.innerHTML = "";
+
+        const suggestions = data.suggestions;
+        suggestions.forEach(suggestion => {
+          const placeName = suggestion.place_name;
+          const suggestionItem = document.createElement('div');
+          suggestionItem.classList.add('plugin-suggestion-item-83a1371d7');
+
+          const iconElement = document.createElement('i');
+          iconElement.className = 'fa-light fa-location-dot';
+          suggestionItem.appendChild(iconElement);
+
+          suggestionItem.appendChild(document.createTextNode(placeName));
+          suggestionsBox.appendChild(suggestionItem);
+
+          suggestionItem.addEventListener('click', () => {
+            searchInput.value = placeName;
+            searchInput.setAttribute('data-lat', suggestion.coordinates[1]);
+            searchInput.setAttribute('data-lon', suggestion.coordinates[0]);
+            suggestionsBox.innerHTML = "";
+            suggestionsBox.classList.remove('active');
+            suggestionsBox.style.display = "none";
+          });
+        });
+      } else {
+        suggestionsBox.classList.remove('active');
+        suggestionsBox.style.display = "none";
+      }
+    } catch (error) {
+      console.error(error);
+      suggestionsBox.classList.remove('active');
+      suggestionsBox.style.display = "none";
+    }
+  });
+}
