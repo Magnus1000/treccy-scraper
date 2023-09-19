@@ -47,6 +47,7 @@ async function loadDrawer() {
       showHideForm();
       // Attach an event listener to the dropdown
       document.getElementById('form-type').addEventListener('change', showHideForm);
+      attachRaceNameListener();
       isDrawerInitialized = true;
     }
   } catch (error) {
@@ -313,12 +314,14 @@ function setUsernameText(username) {
         // Populate dropdown with race names
         data.raceRecords.forEach(record => {
           const option = document.createElement('option');
-          option.value = record.name_at;
+          option.value = record.airtable_record_id_at;
           option.textContent = record.name_at;
           dropdownElement.appendChild(option);
         });
 
         console.log('Populated the race name dropdown successfully.');
+        attachRaceNameListener();
+
       } else {
         console.error("Element with ID 'plugin-course-form-race-name' not found");
       }
@@ -454,3 +457,59 @@ function showHideForm() {
   
   console.log(`Selected Value: ${selectedValue}`);
 } 
+
+// Function to handle displaying and logging the selected record ID
+function handleSelectedRecordID(raceNameDropdown, recordIdDisplay) {
+  const selectedRecordID = raceNameDropdown.value;
+  console.log("Retrieved selectedRecordID:", selectedRecordID);
+  recordIdDisplay.textContent = selectedRecordID;
+  console.log("Record ID has been displayed");
+}
+
+// Function to attach a listener to the race name dropdown
+function attachRaceNameListener() {
+  // Log the initialization of function
+  console.log("attachRaceNameListener function initialized");
+
+  // Get the dropdown element by its id
+  const raceNameDropdown = document.getElementById('plugin-course-form-race-name');
+
+  // Log if the raceNameDropdown was found or not
+  if (raceNameDropdown) {
+    console.log("Successfully retrieved raceNameDropdown element");
+  } else {
+    console.log("Failed to retrieve raceNameDropdown element");
+    return; // Exit the function if the element isn't found
+  }
+
+  // Get the element where we want to display the record ID
+  const recordIdDisplay = document.getElementById('record-id-83a1371d7');
+
+  // Log if the recordIdDisplay was found or not
+  if (recordIdDisplay) {
+    console.log("Successfully retrieved recordIdDisplay element");
+  } else {
+    console.log("Failed to retrieve recordIdDisplay element");
+    return; // Exit the function if the element isn't found
+  }
+
+  // Display the record ID immediately upon function call
+  handleSelectedRecordID(raceNameDropdown, recordIdDisplay);
+
+  // Attach an event listener to the dropdown
+  raceNameDropdown.addEventListener('change', function() {
+    // Log when a change is detected in dropdown
+    console.log("Change detected in raceNameDropdown");
+
+    // Handle the changed selectedRecordID
+    handleSelectedRecordID(raceNameDropdown, recordIdDisplay);
+  });
+
+  // Log that the event listener has been attached
+  console.log("Event listener attached to raceNameDropdown");
+}
+
+// Trigger the handleSelectedRecordID function on page load
+window.addEventListener('load', function() {
+  attachRaceNameListener();
+});

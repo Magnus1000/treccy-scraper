@@ -263,6 +263,11 @@ h1 {
   overflow: auto;
 }
 
+.plugin-display-record-id-83a1371d7 {
+  position: absolute;
+  bottom: -13px;
+}
+
 .plugin-input-fields-83a1371d7:focus-visible {
   outline-offset: 0px;
   border-color: #1b2b1c;
