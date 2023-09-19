@@ -620,3 +620,4 @@ function attachRefreshButtonListener(buttonID, containerID, templateDivID) {
 
   console.log("Event listener attached to refresh button"); // Log that the event listener has been attached
 }
+
