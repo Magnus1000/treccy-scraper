@@ -199,16 +199,34 @@ function attachCreateRaceButtonListener() {
   }
 }
 
+// New function to get the value of a single checkbox by its ID
+function getSingleCheckboxValue(id) {
+  const checkboxElement = document.getElementById(id);
+  if (checkboxElement) {
+    return checkboxElement.checked;
+  }
+  return null;
+}
+
+// Function to get form elements from a specific form
+function getFormElements(formId) {
+  const form = document.getElementById(formId);
+  if (form) {
+    return form.querySelectorAll('input, textarea, select');
+  }
+  return [];
+}
+
 // Function to attach the event listener to the create course button and perform the data submission
 function attachCreateCourseButtonListener() {
   console.log('Attaching listener to create-course-button-83a1371d7');
   
-  const createRaceButton = document.getElementById('create-course-button-83a1371d7');
+  const createCourseButton = document.getElementById('create-course-button-83a1371d7');
   
-  if (createRaceButton) {
+  if (createCourseButton) {
     console.log('create-course-button-83a1371d7 element found');
     
-    createRaceButton.addEventListener('click', async () => {
+    createCourseButton.addEventListener('click', async () => {
       console.log('create-course-button-83a1371d7 clicked');
 
       //const start_time = "YourStartConstantHere";
@@ -237,7 +255,18 @@ function attachCreateCourseButtonListener() {
       const mapCheckboxes = document.querySelectorAll('input[data-type="course-map"]:checked');
       const mapImageURLs = Array.from(mapCheckboxes).map(cb => getImgUrlFromParent(cb));
 
-      const formElements = document.querySelectorAll('input, textarea');
+      // Use the new function to get form elements only from 'course-details-form'
+      const formElements = getFormElements('course-details-form');
+      
+      formElements.forEach((element) => {
+        if (element.type === "checkbox") {
+          jsonData[element.id] = element.checked;
+        } else if (element.tagName === "SELECT") {
+          jsonData[element.id] = element.options[element.selectedIndex].value;
+        } else {
+          jsonData[element.id] = element.value;
+        }
+      });
       
       formElements.forEach((element) => {
         jsonData[element.id] = element.value;
@@ -250,6 +279,12 @@ function attachCreateCourseButtonListener() {
       jsonData.galleryImageURLs = galleryImageURLs;
       jsonData.mapImageURLs = mapImageURLs;
       jsonData.username = username;
+
+      // Use the new function to get the checkbox value by its ID and include it in jsonData
+      const checkboxValue = getSingleCheckboxValue('drawer-toggle-83a1371d7');
+      if (checkboxValue !== null) {
+        jsonData['drawer-toggle-83a1371d7'] = checkboxValue;
+      }
 
       console.log('Collected JSON data:', jsonData);
 
