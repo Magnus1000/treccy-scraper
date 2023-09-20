@@ -15,7 +15,7 @@ console.log(`popup.js loaded at ${popUpLoadTime}`);
 // Initialize the popup checkbox state
 document.addEventListener('DOMContentLoaded', () => {
   console.log("DOMContentLoaded event fired, script will proceed");
-  const popupToggle = document.getElementById('popup-toggle-83a1371d7');
+  const popupToggle = document.getElementById('popup-toggle-checkbox-83a1371d7');
   
   if (popupToggle === null) {
     console.log("Error: Checkbox element not found");
