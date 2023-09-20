@@ -439,7 +439,7 @@ async function fetchRaceData(username) {
       raceCountElement.innerHTML = data.count;
       console.log(`Race count data populated successfully with ${data.count}`);
       console.log(`Other races found for this domain: ${JSON.stringify(data.raceRecords, null, 2)}`);
-      console.log(`Sports for dropdown: ${JSON.stringify(data.sportNames, null, 2)}`);
+      console.log(`Sports for dropdown: ${JSON.stringify(data.sportRecords, null, 2)}`);
     } else {
       console.error("Element with class 'plugin-race-count-83a1371d7' not found");
     }
