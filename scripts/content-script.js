@@ -485,10 +485,10 @@ async function fetchRaceData(username) {
         dropdown.appendChild(placeholderOption);
 
         // Populate dropdown with sport names
-        data.sportNames.forEach(sport => {
+        data.sportRecords.forEach(record => {
           const option = document.createElement('option');
-          option.value = sport;
-          option.textContent = sport;
+          option.value = record.airtable_record_id_at;
+          option.textContent = record.name_at;
           dropdown.appendChild(option);
         });
       });
