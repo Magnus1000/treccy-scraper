@@ -381,10 +381,28 @@ h1 {
   display: flex;
 }
 
+.plugin-view-course-race-link-83a1371d7 {
+  font-weight: 600;
+  color: #5b8c5a;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.plugin-view-course-race-link-83a1371d7:hover {
+  text-decoration: underline;
+}
+
+.plugin-view-course-race-link-83a1371d7:focus-visible {
+  color: #1b2b1c;
+  text-decoration: underline;
+}
+
 .plugin-error-div-wrapper-83a1371d7 {
   width: 100%;
   display: flex;
   position: relative;
+  padding: 10px;
+  font-size: 12px;
   height: 40px;
   border: 1px solid #e6e4d5;
   border-radius: 5px;

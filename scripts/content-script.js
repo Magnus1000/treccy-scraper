@@ -347,7 +347,7 @@ function updateDivWithResponse(responseText, isSuccess) {
     try {
       const jsonResponse = JSON.parse(responseText);
       if (jsonResponse.status === '200') {
-        messageDiv.innerHTML = `"${jsonResponse.message}" – <a href="${jsonResponse.url}" target="_blank">View Course</a>`;
+        messageDiv.innerHTML = `${jsonResponse.message} – <a href="${jsonResponse.url}" target="_blank" class="plugin-view-course-race-link-83a1371d7">View Course</a>`;
       } else {
         messageDiv.innerHTML = jsonResponse.message || 'An error occurred.';
       }
