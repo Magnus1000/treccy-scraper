@@ -229,9 +229,12 @@ function attachCreateCourseButtonListener() {
     createCourseButton.addEventListener('click', async () => {
       console.log('create-course-button-83a1371d7 clicked');
 
-      //const start_time = "YourStartConstantHere";
+      // Disable the button and change its text and opacity
+      createCourseButton.disabled = true;
+      createCourseButton.style.opacity = '0.5';
+      createCourseButton.innerText = 'Patience, champ...';
+
       const end_time = getCurrentFormattedTime();
-      //const username = "YourUsernameConstantHere";
 
       console.log(`Finished at ${end_time}`);
 
@@ -300,14 +303,25 @@ function attachCreateCourseButtonListener() {
         const result = await response.json();
         console.log('Server response:', result);
 
-        // Update the div with the server response
-        updateDivWithResponse(JSON.stringify(result));
+        // Once response is received, enable the button and revert text and opacity
+        createCourseButton.disabled = false;
+        createCourseButton.style.opacity = '1';
+        createCourseButton.innerText = 'Create Course';
+
+        // Assume a 200 status indicates success
+        const isSuccess = (result.status === '200');
+        updateDivWithResponse(JSON.stringify(result), isSuccess);
 
       } catch (error) {
+        // If an error occurs, enable the button and revert text and opacity
+        createCourseButton.disabled = false;
+        createCourseButton.style.opacity = '1';
+        createCourseButton.innerText = 'Create Course';
+
         console.error('Error sending data:', error);
 
         // Update the div with the error message
-        updateDivWithResponse(`Error: ${error.message}`);
+        updateDivWithResponse(`Error: ${error.message}`, false);
       }
     });
   } else {
@@ -316,10 +330,30 @@ function attachCreateCourseButtonListener() {
 }
 
 // Function to update the content of the div with ID 'plugin-success-and-error-message-83a1371d7'
-function updateDivWithResponse(responseText) {
+function updateDivWithResponse(responseText, isSuccess) {
   const messageDiv = document.getElementById('plugin-success-and-error-message-83a1371d7');
   if (messageDiv) {
-    messageDiv.innerHTML = responseText;
+    // Clear existing classes 'success' and 'error'
+    messageDiv.classList.remove('success', 'error');
+
+    // Add the class based on isSuccess flag
+    if (isSuccess) {
+      messageDiv.classList.add('success');
+    } else {
+      messageDiv.classList.add('error');
+    }
+
+    // Check if the responseText is JSON and handle it
+    try {
+      const jsonResponse = JSON.parse(responseText);
+      if (jsonResponse.status === '200') {
+        messageDiv.innerHTML = `"${jsonResponse.message}" – <a href="${jsonResponse.url}" target="_blank">View Course</a>`;
+      } else {
+        messageDiv.innerHTML = jsonResponse.message || 'An error occurred.';
+      }
+    } catch (e) {
+      messageDiv.innerHTML = responseText;
+    }
   }
 }
 
