@@ -53,6 +53,7 @@ async function loadDrawer() {
       toggleAdditionalSportsVisibility();
       attachRefreshButtonListener('plugin-refresh-race-images-button-83a1371d7','plugin-race-image-grid-83a1371d7','plugin-race-image-template-div-83a1371d7');
       attachRefreshButtonListener('plugin-refresh-course-images-button-83a1371d7','plugin-course-image-grid-83a1371d7','plugin-course-image-template-div-83a1371d7');
+      attachSportToggleListener();
       isDrawerInitialized = true;
     }
   } catch (error) {
@@ -860,4 +861,22 @@ async function setupSearchSuggestions(searchInputId, suggestionsBoxId) {
       suggestionsBox.style.display = "none";
     }
   });
+}
+
+// Function to attach event listener to the sport toggle
+function attachSportToggleListener() {  // Locate the checkbox element by its ID
+  const checkbox = document.getElementById('drawer-toggle-checkbox-83a1371d7');
+
+  // Check if the checkbox element exists
+  if (checkbox) {
+    // Attach a 'change' event listener to the checkbox
+    checkbox.addEventListener('change', function(event) {
+      // Log the new checked state of the checkbox to the console
+      console.log(`Sport checkbox state is now: ${event.target.checked}`);
+    });
+
+    console.log('Event listener attached to sport toggle checkbox.');
+  } else {
+    console.log('Sport toggle checkbox not found. Make sure the ID is correct.');
+  }
 }
