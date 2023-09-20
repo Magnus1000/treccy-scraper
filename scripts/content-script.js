@@ -299,12 +299,27 @@ function attachCreateCourseButtonListener() {
 
         const result = await response.json();
         console.log('Server response:', result);
+
+        // Update the div with the server response
+        updateDivWithResponse(JSON.stringify(result));
+
       } catch (error) {
         console.error('Error sending data:', error);
+
+        // Update the div with the error message
+        updateDivWithResponse(`Error: ${error.message}`);
       }
     });
   } else {
     console.error('Element with ID = create-course-button-83a1371d7 not found');
+  }
+}
+
+// Function to update the content of the div with ID 'plugin-success-and-error-message-83a1371d7'
+function updateDivWithResponse(responseText) {
+  const messageDiv = document.getElementById('plugin-success-and-error-message-83a1371d7');
+  if (messageDiv) {
+    messageDiv.innerHTML = responseText;
   }
 }
 
