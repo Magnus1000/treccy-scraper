@@ -1,4 +1,16 @@
-console.log(`popup.js script loaded at ${Date.now()} ms`);
+// Function to get the current time in the desired format
+function getCurrentFormattedTime() {
+  const now = new Date();
+  const hours = now.getHours() % 12 || 12;  // Convert to 12-hour format and keep leading 0
+  const minutes = String(now.getMinutes()).padStart(2, '0'); // Keep leading 0
+  const seconds = String(now.getSeconds()).padStart(2, '0'); // Keep leading 0
+  const milliseconds = String(now.getMilliseconds()).padStart(3, '0'); // Keep leading 0s
+
+  return `${hours}:${minutes}:${seconds}.${milliseconds}`;
+}
+
+const popUpLoadTime = getCurrentFormattedTime();
+console.log(`popup.js loaded at ${popUpLoadTime}`);
 
 // Initialize the popup checkbox state
 document.addEventListener('DOMContentLoaded', () => {
