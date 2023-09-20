@@ -1,6 +1,6 @@
 <!DOCTYPE html><!--  Last Published: Fri Sep 15 2023 15:38:44 GMT+0000 (Coordinated Universal Time)  -->
 <head>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Magnus1000/treccy-scraper@8c8b4ef/scripts/styles.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Magnus1000/treccy-scraper@ec9e385/scripts/styles.css">
     <link rel="stylesheet" href="https://kit.fontawesome.com/2152e2f06a.css" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/2152e2f06a.js" crossorigin="anonymous"></script>
 </head>
@@ -63,12 +63,12 @@
                     <div class="plugin-checkboxes-wrapper-83a1371d7">
                     <label class="plugin-checkbox-wrapper-83a1371d7">
                         <div class="plugin-custom-checkbox-83a1371d7"></div>
-                        <input type="checkbox" name="main_photo_checkbox" id="checkbox" data-type="main">
+                        <input type="checkbox" name="main_photo_checkbox" id="checkbox" data-type="main" class="popup-toggle-checkbox-83a1371d7">
                         <span for="main_photo_checkbox">Main</span>
                     </label>
                     <label class="plugin-checkbox-wrapper-83a1371d7">
                         <div class="plugin-custom-checkbox-83a1371d7"></div>
-                        <input type="checkbox" name="gallery-checkbox" id="gallery-checkbox" data-type="gallery">
+                        <input type="checkbox" name="gallery-checkbox" id="gallery-checkbox" data-type="gallery" class="popup-toggle-checkbox-83a1371d7">
                         <span for="gallery-checkbox">Gallery</span>
                     </label>
                     </div>
@@ -107,70 +107,70 @@
             <div class="plugin-input-field-wrapper-83a1371d7"><input type="time" class="plugin-input-fields-83a1371d7" autocomplete="off" maxlength="256" name="course-time" data-name="course-time" placeholder="Select time" id="course-time" required=""><label for="field" class="plugin-form-label-83a1371d7">Time</label></div>
             <div class="plugin-horizontal-line-83a1371d7"></div>
             <div class="plugin-toggle-row-83a1371d7">
-                <div class="plugin-toggle-text-83a1371d7">Toggle Multisport</div>
+                <div class="plugin-toggle-text-83a1371d7">Single Leg</div>
                 <div class="popup-toggle-wrap-83a1371d7">
                     <input type="checkbox" id="drawer-toggle-checkbox-83a1371d7" name="drawer-toggle" data-name="drawer-toggle-data" class="popup-toggle-checkbox-83a1371d7">
                     <div class="popup-toggle-dot-83a1371d7"></div>
                     <div class="popup-toggle-bg-83a1371d7"></div>
                 </div>
             </div>
-            <div class="plugin-input-field-wrapper-83a1371d7">
-                <select class="plugin-input-fields-83a1371d7" name="sport-1" data-type="sport" data-sport="both" id="sport-1" required>
+            <div class="plugin-input-field-wrapper-83a1371d7"  data-sport="both">
+                <select class="plugin-input-fields-83a1371d7" name="sport-1" data-type="sport" id="sport-1" required>
                 <!-- The options will be added by JavaScript -->
                 </select>
                 <label for="field" class="plugin-form-label-83a1371d7">Sport 1</label>
             </div>
-            <div class="plugin-input-field-wrapper-83a1371d7"><input type="number" class="plugin-input-fields-83a1371d7" autocomplete="off" maxlength="256" data-sport="both" name="sport-1-distance" placeholder="Enter distance in kilometers e.g. 10" id="sport-1-distance" required=""><label for="field" class="plugin-form-label-83a1371d7">Distance 1</label></div>
-            <div class="plugin-text-area-wrapper-83a1371d7"><textarea id="sport-1-description" name="sport-1-description" maxlength="5000" data-sport="both" placeholder="Dust off your Kmart Mountain Bike and chew through 20km of gravel.." class="plugin-text-area-input-83a1371d7"></textarea><label for="field" class="plugin-form-label-83a1371d7">Description 1</label>
+            <div class="plugin-input-field-wrapper-83a1371d7" data-sport="both"><input type="number" class="plugin-input-fields-83a1371d7" autocomplete="off" maxlength="256" name="sport-1-distance" placeholder="Enter distance in kilometers e.g. 10" id="sport-1-distance" required=""><label for="field" class="plugin-form-label-83a1371d7">Distance 1</label></div>
+            <div class="plugin-text-area-wrapper-83a1371d7" data-sport="both"><textarea id="sport-1-description" name="sport-1-description" maxlength="5000" placeholder="Dust off your Kmart Mountain Bike and chew through 20km of gravel.." class="plugin-text-area-input-83a1371d7"></textarea><label for="field" class="plugin-form-label-83a1371d7">Description 1</label>
                 <div button-type="highlight" class="plugin-highlight-button-83a1371d7">
                 <div class="plugin-font-awesome-icon-83a1371d7"><i class="fa-light fa-highlighter"></i></div>
                 </div>
             </div>
-            <div id="plugin-course-form-additional-sports-83a1371d7" class="plugin-form-additional-sports-83a1371d7 hidden">
+            <div id="plugin-course-form-additional-sports-83a1371d7" class="plugin-form-additional-sports-83a1371d7 hidden" data-sport="both">
                 <div class="plugin-input-field-wrapper-83a1371d7">
-                    <select class="plugin-input-fields-83a1371d7" name="sport-2" data-type="sport" data-sport="both" id="sport-2" required>
+                    <select class="plugin-input-fields-83a1371d7" name="sport-2" data-type="sport" id="sport-2" required>
                     <!-- The options will be added by JavaScript -->
                     </select>
                     <label for="field" class="plugin-form-label-83a1371d7">Sport 2</label>
                 </div>
-                <div class="plugin-input-field-wrapper-83a1371d7"><input type="number" class="plugin-input-fields-83a1371d7" autocomplete="off" maxlength="256" data-sport="multisport" name="sport-2-distance" placeholder="Enter distance in kilometers e.g. 10" id="sport-2-distance" required=""><label for="field" class="plugin-form-label-83a1371d7">Distance 2</label></div>
-                <div class="plugin-text-area-wrapper-83a1371d7"><textarea id="sport-2-description" name="sport-2-description" maxlength="5000" data-sport="multisport" placeholder="Dust off your Kmart Mountain Bike and chew through 20km of gravel.." class="plugin-text-area-input-83a1371d7"></textarea><label for="field" class="plugin-form-label-83a1371d7">Description 2</label>
+                <div class="plugin-input-field-wrapper-83a1371d7"  data-sport="multisport"><input type="number" class="plugin-input-fields-83a1371d7" autocomplete="off" maxlength="256" name="sport-2-distance" placeholder="Enter distance in kilometers e.g. 10" id="sport-2-distance" required=""><label for="field" class="plugin-form-label-83a1371d7">Distance 2</label></div>
+                <div class="plugin-text-area-wrapper-83a1371d7" data-sport="multisport"><textarea id="sport-2-description" name="sport-2-description" maxlength="5000" placeholder="Dust off your Kmart Mountain Bike and chew through 20km of gravel.." class="plugin-text-area-input-83a1371d7"></textarea><label for="field" class="plugin-form-label-83a1371d7">Description 2</label>
                     <div button-type="highlight" class="plugin-highlight-button-83a1371d7">
                     <div class="plugin-font-awesome-icon-83a1371d7"><i class="fa-light fa-highlighter"></i></div>
                     </div>
                 </div>
-                <div class="plugin-input-field-wrapper-83a1371d7">
-                    <select class="plugin-input-fields-83a1371d7" name="sport-3" data-type="sport" data-sport="both" id="sport-3" required>
+                <div class="plugin-input-field-wrapper-83a1371d7" data-sport="both">
+                    <select class="plugin-input-fields-83a1371d7" name="sport-3" data-type="sport" id="sport-3" required>
                     <!-- The options will be added by JavaScript -->
                     </select>
                     <label for="field" class="plugin-form-label-83a1371d7">Sport 3</label>
                 </div>
-                <div class="plugin-input-field-wrapper-83a1371d7"><input type="number" class="plugin-input-fields-83a1371d7" autocomplete="off" maxlength="256" data-sport="multisport" name="sport-3-distance" placeholder="Enter distance in kilometers e.g. 10" id="sport-3-distance" required=""><label for="field" class="plugin-form-label-83a1371d7">Distance 3</label></div>
-                <div class="plugin-text-area-wrapper-83a1371d7"><textarea id="sport-3-description" name="sport-3-description" maxlength="5000" data-sport="multisport"placeholder="Dust off your Kmart Mountain Bike and chew through 20km of gravel.." class="plugin-text-area-input-83a1371d7"></textarea><label for="field" class="plugin-form-label-83a1371d7">Description 3</label>
+                <div class="plugin-input-field-wrapper-83a1371d7" data-sport="multisport"><input type="number" class="plugin-input-fields-83a1371d7" autocomplete="off" maxlength="256" name="sport-3-distance" placeholder="Enter distance in kilometers e.g. 10" id="sport-3-distance" required=""><label for="field" class="plugin-form-label-83a1371d7">Distance 3</label></div>
+                <div class="plugin-text-area-wrapper-83a1371d7" data-sport="multisport"><textarea id="sport-3-description" name="sport-3-description" maxlength="5000" placeholder="Dust off your Kmart Mountain Bike and chew through 20km of gravel.." class="plugin-text-area-input-83a1371d7"></textarea><label for="field" class="plugin-form-label-83a1371d7">Description 3</label>
                     <div button-type="highlight" class="plugin-highlight-button-83a1371d7">
                     <div class="plugin-font-awesome-icon-83a1371d7"><i class="fa-light fa-highlighter"></i></div>
                     </div>
                 </div>
-                <div class="plugin-input-field-wrapper-83a1371d7">
-                    <select class="plugin-input-fields-83a1371d7" name="sport-4" data-type="sport" data-sport="both" id="sport-4" required>
+                <div class="plugin-input-field-wrapper-83a1371d7" data-sport="both">
+                    <select class="plugin-input-fields-83a1371d7" name="sport-4" data-type="sport" id="sport-4" required>
                     <!-- The options will be added by JavaScript -->
                     </select>
                     <label for="field" class="plugin-form-label-83a1371d7" data-sport="both">Sport 4</label>
                 </div>
-                <div class="plugin-input-field-wrapper-83a1371d7"><input type="number" class="plugin-input-fields-83a1371d7" autocomplete="off" maxlength="256" data-sport="multisport" name="sport-4-distance" placeholder="Enter distance in kilometers e.g. 10" id="sport-4-distance" required=""><label for="field" class="plugin-form-label-83a1371d7">Distance 4</label></div>
-                <div class="plugin-text-area-wrapper-83a1371d7"><textarea id="sport-4-description" name="sport-4-description" maxlength="5000" data-sport="multisport" placeholder="Dust off your Kmart Mountain Bike and chew through 20km of gravel.." class="plugin-text-area-input-83a1371d7"></textarea><label for="field" class="plugin-form-label-83a1371d7">Description 4</label>
+                <div class="plugin-input-field-wrapper-83a1371d7" data-sport="multisport"><input type="number" class="plugin-input-fields-83a1371d7" autocomplete="off" maxlength="256" name="sport-4-distance" placeholder="Enter distance in kilometers e.g. 10" id="sport-4-distance" required=""><label for="field" class="plugin-form-label-83a1371d7">Distance 4</label></div>
+                <div class="plugin-text-area-wrapper-83a1371d7" data-sport="multisport"><textarea id="sport-4-description" name="sport-4-description" maxlength="5000" placeholder="Dust off your Kmart Mountain Bike and chew through 20km of gravel.." class="plugin-text-area-input-83a1371d7"></textarea><label for="field" class="plugin-form-label-83a1371d7">Description 4</label>
                     <div button-type="highlight" class="plugin-highlight-button-83a1371d7">
                     <div class="plugin-font-awesome-icon-83a1371d7"><i class="fa-light fa-highlighter"></i></div>
                     </div>
                 </div>
-                <div class="plugin-input-field-wrapper-83a1371d7">
-                    <select class="plugin-input-fields-83a1371d7" name="sport-5" data-type="sport" data-sport="both" id="sport-5" required>
+                <div class="plugin-input-field-wrapper-83a1371d7" data-sport="both" >
+                    <select class="plugin-input-fields-83a1371d7" name="sport-5" data-type="sport" id="sport-5" required>
                     <!-- The options will be added by JavaScript -->
                     </select>
                     <label for="field" class="plugin-form-label-83a1371d7" data-sport="both">Sport 5</label>
                 </div>
-                <div class="plugin-input-field-wrapper-83a1371d7"><input type="number" class="plugin-input-fields-83a1371d7" autocomplete="off" maxlength="256" data-sport="multisport" name="sport-5-distance" placeholder="Enter distance in kilometers e.g. 10" id="sport-5-distance" required=""><label for="field" class="plugin-form-label-83a1371d7">Distance 5</label></div>
-                <div class="plugin-text-area-wrapper-83a1371d7"><textarea id="sport-5-description" name="sport-5-description" maxlength="5000" data-sport="multisport" placeholder="Dust off your Kmart Mountain Bike and chew through 20km of gravel.." class="plugin-text-area-input-83a1371d7"></textarea><label for="field" class="plugin-form-label-83a1371d7">Description 5</label>
+                <div class="plugin-input-field-wrapper-83a1371d7" data-sport="multisport"><input type="number" class="plugin-input-fields-83a1371d7" autocomplete="off" maxlength="256" name="sport-5-distance" placeholder="Enter distance in kilometers e.g. 10" id="sport-5-distance" required=""><label for="field" class="plugin-form-label-83a1371d7">Distance 5</label></div>
+                <div class="plugin-text-area-wrapper-83a1371d7" data-sport="multisport"><textarea id="sport-5-description" name="sport-5-description" maxlength="5000" placeholder="Dust off your Kmart Mountain Bike and chew through 20km of gravel.." class="plugin-text-area-input-83a1371d7"></textarea><label for="field" class="plugin-form-label-83a1371d7">Description 5</label>
                     <div button-type="highlight" class="plugin-highlight-button-83a1371d7">
                     <div class="plugin-font-awesome-icon-83a1371d7"><i class="fa-light fa-highlighter"></i></div>
                     </div>
@@ -187,17 +187,17 @@
                     <div class="plugin-checkboxes-wrapper-83a1371d7">
                     <label class="plugin-checkbox-wrapper-83a1371d7">
                         <div class="plugin-custom-checkbox-83a1371d7"></div>
-                        <input type="checkbox" name="main-photo-checkbox" id="course-main-checkbox" data-type="course-main">
+                        <input type="checkbox" name="main-photo-checkbox" id="course-main-checkbox" data-type="main" class="popup-toggle-checkbox-83a1371d7">
                         <span for="course-main-photo-checkbox">Main</span>
                     </label>
                     <label class="plugin-checkbox-wrapper-83a1371d7">
                         <div class="plugin-custom-checkbox-83a1371d7"></div>
-                        <input type="checkbox" name="course-gallery-checkbox" id="course-gallery-checkbox" data-type="course-gallery">
+                        <input type="checkbox" name="course-gallery-checkbox" id="course-gallery-checkbox" data-type="course-gallery" class="popup-toggle-checkbox-83a1371d7">
                         <span for="course-gallery-checkbox">Gallery</span>
                     </label>
                     <label class="plugin-checkbox-wrapper-83a1371d7">
                         <div class="plugin-custom-checkbox-83a1371d7"></div>
-                        <input type="checkbox" name="course-map-checkbox" id="course-map-checkbox" data-type="course-map">
+                        <input type="checkbox" name="course-map-checkbox" id="course-map-checkbox" data-type="course-map" class="popup-toggle-checkbox-83a1371d7">
                         <span for="course-map-checkbox">Map</span>
                     </label>
                     </div>

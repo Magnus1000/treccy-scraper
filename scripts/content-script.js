@@ -1,6 +1,8 @@
 const username = '@mazzy';
-const start_time = getCurrentFormattedTime();
-console.log(`Started at ${start_time}`);
+const formated_start_time = getCurrentFormattedTime();
+const start_time = Math.floor(new Date().getTime() / 1000);
+
+console.log(`Started at ${formated_start_time}`);
 
 // Function to get the current time in the desired format
 function getCurrentFormattedTime() {
@@ -143,11 +145,14 @@ function attachCreateRaceButtonListener() {
     createRaceButton.addEventListener('click', async () => {
       console.log('create-race-button-83a1371d7 clicked');
 
-      //const start_time = "YourStartConstantHere";
-      const end_time = getCurrentFormattedTime();
-      //const username = "YourUsernameConstantHere";
+      // Disable the button and change its text and opacity
+      createRaceButton.disabled = true;
+      createRaceButton.style.opacity = '0.5';
+      createRaceButton.innerText = 'Waiting...';
 
-      console.log(`Finished at ${end_time}`);
+      const formatted_end_time = getCurrentFormattedTime();
+      const end_time = Math.floor(new Date().getTime() / 1000);
+      console.log(`Finished at ${formatted_end_time}`);
 
       let jsonData = {};
 
@@ -165,7 +170,19 @@ function attachCreateRaceButtonListener() {
       const galleryCheckboxes = document.querySelectorAll('input[data-type="gallery"]:checked');
       const galleryImageURLs = Array.from(galleryCheckboxes).map(cb => getImgUrlFromParent(cb));
 
-      const formElements = document.querySelectorAll('input, textarea');
+      	
+      // Use the new function to get form elements only from 'race-details-form'
+      const formElements = getFormElements('race-details-form');
+      
+      formElements.forEach((element) => {
+        if (element.type === "checkbox") {
+          jsonData[element.id] = element.checked;
+        } else if (element.tagName === "SELECT") {
+          jsonData[element.id] = element.options[element.selectedIndex].value;
+        } else {
+          jsonData[element.id] = element.value;
+        }
+      });
       
       formElements.forEach((element) => {
         jsonData[element.id] = element.value;
@@ -191,8 +208,26 @@ function attachCreateRaceButtonListener() {
 
         const result = await response.json();
         console.log('Server response:', result);
+
+        // Once response is received, enable the button and revert text and opacity
+        createRaceButton.disabled = false;
+        createRaceButton.style.opacity = '1';
+        createRaceButton.innerText = 'Create Race';
+
+        // Assume a 200 status indicates success
+        const isSuccess = (result.status === '200');
+        updateDivWithResponse(JSON.stringify(result), isSuccess);
+
       } catch (error) {
+        // If an error occurs, enable the button and revert text and opacity
+        createRaceButton.disabled = false;
+        createRaceButton.style.opacity = '1';
+        createRaceButton.innerText = 'Create Race';
+
         console.error('Error sending data:', error);
+
+        // Update the div with the error message
+        updateDivWithResponse(`Error: ${error.message}`, false);
       }
     });
   } else {
@@ -606,7 +641,7 @@ function addImageAndCheckboxes(containerID, templateDivID) {
 
 // New function to handle checkbox toggle
 function toggleCustomCheckbox() {
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  const checkboxes = document.querySelectorAll('.popup-toggle-checkbox-83a1371d7');
   
   checkboxes.forEach((checkbox) => {
     checkbox.addEventListener('change', function() {
@@ -620,6 +655,23 @@ function toggleCustomCheckbox() {
     });
   });
 }
+
+/*// New function to handle checkbox toggle
+function toggleCustomCheckbox() {
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  
+  checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener('change', function() {
+      const customCheckbox = this.previousElementSibling;
+      
+      if (this.checked) {
+        customCheckbox.classList.add('checked');
+      } else {
+        customCheckbox.classList.remove('checked');
+      }
+    });
+  });
+}*/
 
 // Function to only allow one Main Photo to be selected at a time
 function allowSingleMainCheckbox() {
@@ -873,10 +925,46 @@ function attachSportToggleListener() {  // Locate the checkbox element by its ID
     checkbox.addEventListener('change', function(event) {
       // Log the new checked state of the checkbox to the console
       console.log(`Sport checkbox state is now: ${event.target.checked}`);
+      toggleMultiSportDivs(event.target);
     });
 
     console.log('Event listener attached to sport toggle checkbox.');
   } else {
     console.log('Sport toggle checkbox not found. Make sure the ID is correct.');
   }
+}
+
+function toggleMultiSportDivs(checkboxElement) {
+  // Log the beginning of the function execution
+  console.log("Entering toggleMultiSportDivs function...");
+
+  // Get all div elements with the custom attribute 'data-sport="multisport"'
+  const multiSportDivs = document.querySelectorAll('div[data-sport="multisport"]');
+  
+  // Log the number of div elements found
+  console.log(`Found ${multiSportDivs.length} div(s) with 'data-sport="multisport"' attribute.`);
+  
+  // Loop through each div element found
+  multiSportDivs.forEach((div, index) => {
+    // Log the current div element being processed
+    console.log(`Processing div element ${index + 1}...`);
+    
+    if (checkboxElement.checked) {
+      // If the checkbox is checked, add the "hidden" class
+      div.classList.add('hidden');
+      // Log that the "hidden" class was added
+      console.log(`Added 'hidden' class to div element ${index + 1}.`);
+    } else {
+      // Otherwise, remove the "hidden" class
+      div.classList.remove('hidden');
+      // Log that the "hidden" class was removed
+      console.log(`Removed 'hidden' class from div element ${index + 1}.`);
+    }
+  });
+
+  // Log to the console the final outcome
+  console.log(`Toggled the hidden class for multisport divs based on checkbox state: ${checkboxElement.checked ? 'hide' : 'show'}`);
+  
+  // Log the end of the function execution
+  console.log("Exiting toggleMultiSportDivs function.");
 }
