@@ -707,14 +707,16 @@ h1 {
 }
 
 .plugin-treccy-popup-83a1371d7 {
-  max-height: 220px;
-  max-width: 450px;
-  min-height: 130px;
-  min-width: 350px;
+  height: 250px;
+  width: 350px;
   background-color: #fbf8ef;
   flex-direction: column;
   padding: 20px;
   display: flex;
+}
+
+.plugin-treccy-popup-text-83a1371d7.hidden {
+  display: none;
 }
 
 .plugin-treccy-popup-text-83a1371d7 {
@@ -723,6 +725,19 @@ h1 {
   font-weight: 400;
   width:100%;
   font-size: 16px;
+}
+.plugin-treccy-popup-emoji-83a1371d7 {
+font-size: 100px;
+display: flex;
+vertical-align: middle;
+align-items: center;
+justify-content: center;
+max-height: 1.2em;
+margin: 20px;
+}
+
+.plugin-treccy-popup-emoji-83a1371d7.hidden {
+  display: none;
 }
 
 .popup-toggle-dot-83a1371d7 {
@@ -1040,6 +1055,10 @@ h1 {
 
   .plugin-popup-body-83a1371d7 {
     background-color: transparent;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .expand-collapse-wrapper-83a1371d7:hover {

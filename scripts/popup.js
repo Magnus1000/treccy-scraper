@@ -12,6 +12,46 @@ function getCurrentFormattedTime() {
 const popUpLoadTime = getCurrentFormattedTime();
 console.log(`popup.js loaded at ${popUpLoadTime}`);
 
+// Function to toggle the "hidden" class for reaction divs based on checkbox state
+function toggleReactionDivs(checkboxState) {
+  const startReactionDiv = document.getElementById('popup-text-start-toggle-reaction-83a1371d7');
+  const finishReactionDiv = document.getElementById('popup-text-finish-toggle-reaction-83a1371d7');
+
+  if (checkboxState) {
+    startReactionDiv.classList.remove('hidden');
+    finishReactionDiv.classList.add('hidden');
+  } else {
+    startReactionDiv.classList.add('hidden');
+    finishReactionDiv.classList.remove('hidden');
+  }
+  console.log(`Toggled the hidden class for reaction divs based on checkbox state: ${checkboxState}`);
+}
+
+// Function to toggle the "hidden" class for text divs when the popup shows and hides
+function toggleTextDivs(show) {
+  const gettingStartedDiv = document.getElementById('popup-text-getting-started-83a1371d7');
+  const finishingDiv = document.getElementById('popup-text-finishing-83a1371d7');
+
+  if (show) {
+    gettingStartedDiv.classList.add('hidden');
+    finishingDiv.classList.remove('hidden');
+  } else {
+    gettingStartedDiv.classList.remove('hidden');
+    finishingDiv.classList.add('hidden');
+  }
+  console.log(`Toggled the hidden class for text divs based on popup state: ${show ? 'show' : 'hide'}`);
+}
+
+// Function to toggle the "hidden" class for text divs when the popup shows and hides
+function toggleBothTextDivs() {
+  const gettingStartedDiv = document.getElementById('popup-text-getting-started-83a1371d7');
+  const finishingDiv = document.getElementById('popup-text-finishing-83a1371d7');
+
+  gettingStartedDiv.classList.add('hidden');
+  finishingDiv.classList.add('hidden');
+  console.log(`Toggled the hidden class for both text divs`);
+}
+
 // Initialize the popup checkbox state
 document.addEventListener('DOMContentLoaded', () => {
   console.log("DOMContentLoaded event fired, script will proceed");
@@ -30,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       popupToggle.checked = false;
     }
+    toggleTextDivs(popupToggle.checked);
   });
 
   // Add a click listener to the checkbox
@@ -41,5 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log("Checkbox is checked, sending message to load the drawer");
       chrome.runtime.sendMessage({ action: 'loadDrawer' });
     }
+    toggleReactionDivs(popupToggle.checked);
+    toggleBothTextDivs();
   });
 });
