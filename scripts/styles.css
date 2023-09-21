@@ -5,6 +5,7 @@
 .plugin-form-label-83a1371d7 {
   color: #1b2b1c;
   font-size: 12px;
+  font-family: Rubik, sans-serif;
   font-weight: 400;
   display: block;
   position: absolute;
@@ -176,6 +177,7 @@ h1 {
 }
 
 .plugin-suggestion-item-83a1371d7 {
+  font-family: Rubik, sans-serif;
   font-size: 14px;
   grid-column-gap: 10px;
   color: #1b2b1c;
@@ -246,6 +248,7 @@ h1 {
 }
 
 .plugin-toggle-text-83a1371d7 {
+  font-family: Rubik, sans-serif;
   color: #1b2b1c;
   font-size: 12px;
   align-self: center;
@@ -278,6 +281,7 @@ h1 {
 }
 
 .plugin-text-area-input-83a1371d7 {
+  font-family: Rubik, sans-serif;
   width: 100%;
   max-width: 100%;
   min-width: 100%;
@@ -298,6 +302,8 @@ h1 {
 }
 
 .plugin-display-record-id-83a1371d7 {
+  font-family: Rubik, sans-serif;
+  color: #1b2b1c;
   position: absolute;
   bottom: -13px;
   font-size: 10px;
@@ -338,17 +344,18 @@ h1 {
 }
 
 .plugin-timer-div-wrapper-83a1371d7 {
-    color: #1b2b1c;
-    font-size: 12px;
-    padding: 5px;
-    gap: 5px;
-    max-width: fit-content;
-    border: 1px solid #e6e4d5;
-    border-radius: 5px;
-    flex: auto;
-    justify-content: flex-start;
-    display: flex;
-    position: relative;
+  font-family: Rubik, sans-serif;
+  color: #1b2b1c;
+  font-size: 12px;
+  padding: 5px;
+  gap: 5px;
+  max-width: fit-content;
+  border: 1px solid #e6e4d5;
+  border-radius: 5px;
+  flex: auto;
+  justify-content: flex-start;
+  display: flex;
+  position: relative;
 }
 
 .plugin-timer-div-83a1371d7 {
@@ -370,6 +377,7 @@ h1 {
 }
 
 .plugin-timer-time-83a1371d7 {
+  font-family: Rubik, sans-serif;
   display: flex;
   position: relative;
   color: #1b2b1c;
@@ -387,6 +395,7 @@ h1 {
 }
 
 .plugin-view-course-race-link-83a1371d7 {
+  font-family: Rubik, sans-serif;
   padding-left: 5px;
   padding-right: 5px;
   font-weight: 600;
@@ -405,6 +414,7 @@ h1 {
 }
 
 .plugin-error-div-wrapper-83a1371d7 {
+  font-family: Rubik, sans-serif;
   width: 100%;
   display: flex;
   position: relative;
@@ -469,6 +479,7 @@ h1 {
 }
 
 .plugin-checkbox-wrapper-83a1371d7 {
+  font-family: Rubik, sans-serif;
   font-size: 11px;
   width: fit-content;
   grid-column-gap: 10px;
@@ -545,6 +556,7 @@ h1 {
 }
 
 .plugin-username-wrapper-83a1371d7 {
+  font-family: Rubik, sans-serif;
   font-size: 14px;
   color: #1b2b1c;
   max-width: 60%;
@@ -554,12 +566,14 @@ h1 {
 }
 
 .plugin-username-text-83a1371d7 {
+  font-family: Rubik, sans-serif;
   color: #1b2b1c;
   align-self: center;
   display: flex;
 }
 
 .plugin-race-count-83a1371d7 {
+  font-family: Rubik, sans-serif;
   color: #1b2b1c;
   background-color: #bff103;
   border-radius: 20px;
@@ -625,7 +639,6 @@ h1 {
   font-size: 14px;
   padding: 20px 10px;
   position: relative;
-  top: 180px;
 }
 
 .highlight {
@@ -633,6 +646,7 @@ h1 {
 }
 
 .plugin-button-primary-83a1371d7 {
+  font-family: Rubik, sans-serif;
   color: #1b2b1c;
   text-align: center;
   cursor: pointer;
@@ -648,7 +662,37 @@ h1 {
   text-decoration: none;
 }
 
+.plugin-button-primary-outline-83a1371d7 {
+  font-family: Rubik, sans-serif;
+  color: #1b2b1c;
+  text-align: center;
+  cursor: pointer;
+  background-color: transparent;
+  border: #1b2b1c 1px solid;
+  border-radius: 5px;
+  justify-content: center;
+  align-self: auto;
+  transition: all .3s;
+  display: flex;
+  line-height: 1.3em;
+  border: 0;
+  padding: 9px 15px;
+  text-decoration: none;
+}
+
+.plugin-button-primary-outline-83a1371d7:hover {
+  background-color: rgba(230, 228, 213, .4);
+  border-color: #1b2b1c;
+  outline: 1px solid #1b2b1c;
+}
+
+.plugin-button-primary-outline-83a1371d7:focus-visible {
+  background-color: rgba(230, 228, 213, .4);
+  border-color: #1b2b1c;
+}
+
 .plugin-top-wrapper-83a1371d7 {
+  font-family: Rubik, sans-serif;
   z-index: 200000;
   height: 180px;
   grid-row-gap: 10px;
@@ -717,6 +761,7 @@ h1 {
 }
 
 .plugin-treccy-popup-83a1371d7 {
+  font-family: Rubik, sans-serif;
   height: 250px;
   width: 350px;
   background-color: #fbf8ef;

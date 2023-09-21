@@ -56,6 +56,8 @@ async function loadDrawer() {
       attachRefreshButtonListener('plugin-refresh-race-images-button-83a1371d7','plugin-race-image-grid-83a1371d7','plugin-race-image-template-div-83a1371d7');
       attachRefreshButtonListener('plugin-refresh-course-images-button-83a1371d7','plugin-course-image-grid-83a1371d7','plugin-course-image-template-div-83a1371d7');
       attachSportToggleListener();
+      populateFormFields();
+      attachFormStateListeners();
       isDrawerInitialized = true;
     }
   } catch (error) {
@@ -194,7 +196,6 @@ function attachCreateRaceButtonListener() {
       // Added: Fetch the additional Mapbox data and add it to jsonData
       const raceLocationElement = document.getElementById('race-location');
       if (raceLocationElement) {
-        jsonData['race_location'] = raceLocationElement.value;
         jsonData['race_location_lat'] = raceLocationElement.getAttribute('data-lat');
         jsonData['race_location_lon'] = raceLocationElement.getAttribute('data-lon');
         jsonData['race_location_region'] = raceLocationElement.getAttribute('data-region');
@@ -975,4 +976,113 @@ function toggleMultiSportDivs(checkboxElement) {
   
   // Log the end of the function execution
   console.log("Exiting toggleMultiSportDivs function.");
+}
+
+// Function to populate form fields from saved state
+function populateFormFields() {
+  // Retrieve the stored form data from sessionStorage
+  const formData = JSON.parse(sessionStorage.getItem('formData')) || {};
+
+    // Populate checkboxes
+    Object.keys(formData).forEach(function(key) {
+      const element = document.getElementById(key);
+      if (element && element.type === 'checkbox') {
+        element.checked = formData[key];
+      }
+    });
+
+    // Populate input fields
+    Object.keys(formData).forEach(function(key) {
+      const element = document.getElementById(key);
+      if (element && 
+        (element.type === 'text' || 
+         element.type === 'email' || 
+         element.type === 'date' || 
+         element.type === 'time')) {
+      element.value = formData[key];
+    }
+  });
+
+    // Populate select fields
+    Object.keys(formData).forEach(function(key) {
+      const element = document.getElementById(key);
+      if (element && element.tagName === 'SELECT') {
+        element.value = formData[key];
+      }
+    });
+
+    // Populate text areas
+    Object.keys(formData).forEach(function(key) {
+      const element = document.getElementById(key);
+      if (element && element.tagName === 'TEXTAREA') {
+        element.value = formData[key];
+      }
+    });
+
+    console.log('Form fields populated from saved state:', formData);
+}
+
+// Function to save form field states
+function saveFormFieldStates() {
+  // Creating an object to hold form data
+  let formData = {};
+
+  // Save checkboxes
+  document.querySelectorAll('input[type=checkbox]').forEach(function(checkbox) {
+    formData[checkbox.id] = checkbox.checked;
+  });
+
+  // Save input fields
+  document.querySelectorAll('input[type=text], input[type=email]').forEach(function(input) {
+    formData[input.id] = input.value;
+  });
+
+  // Save select fields
+  document.querySelectorAll('select').forEach(function(select) {
+    formData[select.id] = select.value;
+  });
+
+  // Save text areas
+  document.querySelectorAll('textarea').forEach(function(textarea) {
+    formData[textarea.id] = textarea.value;
+  });
+
+  sessionStorage.setItem('formData', JSON.stringify(formData));
+  console.log('Form field states saved:', formData);
+}
+
+// Function to attach event listeners for saving form field states
+function attachFormStateListeners() {
+  document.querySelectorAll('input[type=checkbox], input[type=text], input[type=email], input[type=date], input[type=time], select, textarea').forEach(function(element) {
+    element.addEventListener('change', saveFormFieldStates);
+  });
+  console.log("Form state listeners attached.");
+}
+
+// Function to clear form data from sessionStorage and reset form fields
+function clearFormData() {
+  // Remove stored form data from sessionStorage
+  sessionStorage.removeItem('formData');
+
+  // Clear checkboxes
+  document.querySelectorAll('input[type=checkbox]').forEach(function(checkbox) {
+    checkbox.checked = false;
+  });
+
+  // Clear input fields
+  document.querySelectorAll('input[type=text], input[type=email], input[type=date], input[type=time]').forEach(function(input) {
+    input.value = '';
+  });
+
+  // Clear select fields
+  document.querySelectorAll('select').forEach(function(select) {
+    select.selectedIndex = 0;
+  });
+
+  // Clear text areas
+  document.querySelectorAll('textarea').forEach(function(textarea) {
+    textarea.value = '';
+  });
+
+  console.log('Form data cleared.');
 }
