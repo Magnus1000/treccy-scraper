@@ -62,6 +62,7 @@ async function loadDrawer() {
       attachClearFormButtonRevealListener();
       attachClearFormConfirmationButtonListener();
       attachGlobalDropdownKeyListener();
+      checkRaceFormFields();
     }
   } catch (error) {
     console.log('Failed to load drawer: ', error);
@@ -148,7 +149,11 @@ function attachCreateRaceButtonListener() {
     console.log('create-race-button-83a1371d7 element found');
     
     createRaceButton.addEventListener('click', async () => {
-      console.log('create-race-button-83a1371d7 clicked');
+      // Check if the button is disabled
+      if (createRaceButton.disabled) {
+        console.log('Button is disabled, not executing click action.');
+        return; // Skip the rest of the logic
+      }
 
       // Disable the button and change its text and opacity
       createRaceButton.disabled = true;
@@ -839,6 +844,7 @@ function attachRefreshButtonListener(buttonID, containerID, templateDivID) {
     addImageAndCheckboxes(containerID, templateDivID); // Call the function to add images and checkboxes
     toggleCustomCheckbox();
     allowSingleMainCheckbox();
+    checkRaceFormFields();
   });
 
   console.log("Event listener attached to refresh button"); // Log that the event listener has been attached
@@ -1192,6 +1198,76 @@ function attachGlobalDropdownKeyListener() {
           console.log('No placeholder found. Skipping reset.');
         }
       }
+    }
+  });
+}
+
+function checkRaceFormFields() {
+  // Get the form element by its ID
+  const form = document.getElementById('race-details-form');
+  
+  // Get the "Create Race" button
+  const createRaceButton = document.getElementById('create-race-button-83a1371d7');
+  
+  // Disable the button by default
+  createRaceButton.disabled = true;
+  createRaceButton.style.opacity = '0.5';
+  
+  // Log the initial status
+  console.log("Initial button state: disabled");
+
+  // Listen for input events on the form
+  form.addEventListener('input', function () {
+    // Get all input fields and text areas within the form
+    const inputFields = form.querySelectorAll('input, textarea');
+    
+    // Log the number of fields found
+    console.log(`Total fields found: ${inputFields.length}`);
+    
+    // Initialize a variable to keep track of filled fields
+    let filledFields = 0;
+    
+    // Initialize variables to track checkbox types
+    let mainChecked = false;
+    let galleryChecked = false;
+    
+    // Loop through each input field to check if it has a value or is checked
+    inputFields.forEach(function (field) {
+      if (field.type === 'checkbox') {
+        if (field.checked) {
+          // Check the data-type attribute
+          if (field.getAttribute('data-type') === 'main') {
+            mainChecked = true;
+          } else if (field.getAttribute('data-type') === 'gallery') {
+            galleryChecked = true;
+          }
+          filledFields++;
+        }
+      } else {
+        if (field.value) {
+          filledFields++;
+        }
+      }
+    });
+    
+    // Log the number of filled fields
+    console.log(`Filled fields: ${filledFields}`);
+    
+    // Check if all fields have values or are checked, and required checkboxes are checked
+    if (filledFields === inputFields.length && mainChecked && galleryChecked) {
+      // Enable the button
+      createRaceButton.disabled = false;
+      createRaceButton.style.opacity = '1';
+      
+      // Log that the button is enabled
+      console.log("Button state: enabled");
+    } else {
+      // Keep the button disabled
+      createRaceButton.disabled = true;
+      createRaceButton.style.opacity = '0.5';
+
+      // Log that the button is disabled
+      console.log("Button state: disabled");
     }
   });
 }
