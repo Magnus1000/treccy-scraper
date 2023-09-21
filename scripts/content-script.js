@@ -1,6 +1,7 @@
 const username = '@mazzy';
 const formated_start_time = getCurrentFormattedTime();
 const start_time = Math.floor(new Date().getTime() / 1000);
+const requiredFields = ['race-name', 'race-description', 'race-location', 'race-date', 'race-time'];
 
 console.log(`Started at ${formated_start_time}`);
 
@@ -62,7 +63,7 @@ async function loadDrawer() {
       attachClearFormButtonRevealListener();
       attachClearFormConfirmationButtonListener();
       attachGlobalDropdownKeyListener();
-      checkRaceFormFields();
+      checkRaceFormFields('race-details-form', requiredFields);
     }
   } catch (error) {
     console.log('Failed to load drawer: ', error);
@@ -1202,63 +1203,62 @@ function attachGlobalDropdownKeyListener() {
   });
 }
 
-function checkRaceFormFields() {
+// Function to ensure required fields are set
+function checkRaceFormFields(formID, fieldIDs) {
   // Get the form element by its ID
-  const form = document.getElementById('race-details-form');
-  
+  const form = document.getElementById(formID);
+
   // Get the "Create Race" button
   const createRaceButton = document.getElementById('create-race-button-83a1371d7');
-  
+
   // Disable the button by default
   createRaceButton.disabled = true;
   createRaceButton.style.opacity = '0.5';
-  
+
   // Log the initial status
   console.log("Initial button state: disabled");
+  console.log(`Number of required fields: ${fieldIDs.length}`);
 
   // Listen for input events on the form
   form.addEventListener('input', function () {
-    // Get all input fields and text areas within the form
-    const inputFields = form.querySelectorAll('input, textarea');
-    
-    // Log the number of fields found
-    console.log(`Total fields found: ${inputFields.length}`);
-    
     // Initialize a variable to keep track of filled fields
     let filledFields = 0;
-    
+
     // Initialize variables to track checkbox types
     let mainChecked = false;
     let galleryChecked = false;
-    
-    // Loop through each input field to check if it has a value or is checked
-    inputFields.forEach(function (field) {
-      if (field.type === 'checkbox') {
-        if (field.checked) {
-          // Check the data-type attribute
-          if (field.getAttribute('data-type') === 'main') {
-            mainChecked = true;
-          } else if (field.getAttribute('data-type') === 'gallery') {
-            galleryChecked = true;
+
+    // Loop through each ID in the fieldIDs array
+    fieldIDs.forEach(function (id) {
+      const field = form.querySelector(`#${id}`);
+
+      if (field) {
+        if (field.type === 'checkbox') {
+          if (field.checked) {
+            if (field.getAttribute('data-type') === 'main') {
+              mainChecked = true;
+            } else if (field.getAttribute('data-type') === 'gallery') {
+              galleryChecked = true;
+            }
+            filledFields++;
           }
-          filledFields++;
-        }
-      } else {
-        if (field.value) {
-          filledFields++;
+        } else {
+          if (field.value) {
+            filledFields++;
+          }
         }
       }
     });
     
     // Log the number of filled fields
     console.log(`Filled fields: ${filledFields}`);
-    
+
     // Check if all fields have values or are checked, and required checkboxes are checked
-    if (filledFields === inputFields.length && mainChecked && galleryChecked) {
+    if (filledFields === fieldIDs.length && mainChecked && galleryChecked) {
       // Enable the button
       createRaceButton.disabled = false;
       createRaceButton.style.opacity = '1';
-      
+
       // Log that the button is enabled
       console.log("Button state: enabled");
     } else {
