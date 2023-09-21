@@ -3,7 +3,7 @@
 } 
 
 .plugin-form-label-83a1371d7 {
-  color: inherit;
+  color: #1b2b1c;
   font-size: 12px;
   font-weight: 400;
   display: block;
@@ -143,7 +143,7 @@ h1 {
 .plugin-input-fields-83a1371d7 {
   width: 100%;
   height: 100%;
-  color: inherit;
+  color: #1b2b1c;
   border: 1px solid #69706d;
   border-radius: 5px;
   margin-bottom: 0;
@@ -234,7 +234,7 @@ h1 {
   border-radius: 5px;
   font-family: Rubik, sans-serif;
   transition: all .2s;
-  color: inherit;
+  color: #1b2b1c;
   vertical-align: middle;
   line-height: 1.3em;
   padding: 22px 12px 8px 12px;
@@ -290,7 +290,7 @@ h1 {
   padding-right: 48px;
   padding-bottom: 8px;
   display: flex;
-  color: inherit;
+  color: #1b2b1c;
   background-color: #fff;
   font-size: 14px;
   line-height: 1.3em;
@@ -338,6 +338,8 @@ h1 {
 }
 
 .plugin-timer-div-wrapper-83a1371d7 {
+    color: #1b2b1c;
+    font-size: 12px;
     padding: 5px;
     gap: 5px;
     max-width: fit-content;
@@ -358,10 +360,11 @@ h1 {
 }
 
 .plugin-font-awesome-icon-83a1371d7 {
-  min-width: 1.1em;
+  color:#1b2b1c;
+  min-width: 1em;
   justify-content: center;
   align-items: center;
-  font-size: 1.1em;
+  font-size: 1em;
   transition: all .3s;
   display: flex;
 }
@@ -466,6 +469,7 @@ h1 {
 }
 
 .plugin-checkbox-wrapper-83a1371d7 {
+  font-size: 11px;
   width: fit-content;
   grid-column-gap: 10px;
   align-items: center;
@@ -541,6 +545,8 @@ h1 {
 }
 
 .plugin-username-wrapper-83a1371d7 {
+  font-size: 14px;
+  color: #1b2b1c;
   max-width: 60%;
   grid-column-gap: 5px;
   justify-content: flex-end;
@@ -586,7 +592,7 @@ h1 {
   bottom: 6%;
   left: auto;
   right: 1%;
-  line-height: inherit;
+  line-height: 1.3em;
   text-decoration: none;
 }
 
@@ -615,6 +621,8 @@ h1 {
 }
 
 .plugin-button-create-wrapper-83a1371d7 {
+  color: #1b2b1c;
+  font-size: 14px;
   padding: 20px 10px;
   position: relative;
   top: 180px;
@@ -634,7 +642,7 @@ h1 {
   align-self: auto;
   transition: all .3s;
   display: flex;
-  line-height: inherit;
+  line-height: 1.3em;
   border: 0;
   padding: 9px 15px;
   text-decoration: none;

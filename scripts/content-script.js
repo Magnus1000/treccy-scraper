@@ -183,10 +183,6 @@ function attachCreateRaceButtonListener() {
           jsonData[element.id] = element.value;
         }
       });
-      
-      formElements.forEach((element) => {
-        jsonData[element.id] = element.value;
-      });
 
       jsonData.formType = "race";
       jsonData.start_time = start_time;
@@ -194,6 +190,19 @@ function attachCreateRaceButtonListener() {
       jsonData.mainImageURL = mainImageURL;
       jsonData.galleryImageURLs = galleryImageURLs;
       jsonData.username = username;
+
+      // Added: Fetch the additional Mapbox data and add it to jsonData
+      const raceLocationElement = document.getElementById('race-location');
+      if (raceLocationElement) {
+        jsonData['race_location'] = raceLocationElement.value;
+        jsonData['race_location_lat'] = raceLocationElement.getAttribute('data-lat');
+        jsonData['race_location_lon'] = raceLocationElement.getAttribute('data-lon');
+        jsonData['race_location_region'] = raceLocationElement.getAttribute('data-region');
+        jsonData['race_location_city'] = raceLocationElement.getAttribute('data-city');
+        jsonData['race_location_country'] = raceLocationElement.getAttribute('data-country');
+      } else {
+        console.error('Element with ID = race-location not found');
+      }
 
       console.log('Collected JSON data:', jsonData);
 
@@ -306,10 +315,6 @@ function attachCreateCourseButtonListener() {
           jsonData[element.id] = element.value;
         }
       });
-      
-      formElements.forEach((element) => {
-        jsonData[element.id] = element.value;
-      });
 
       jsonData.formType = "course";
       jsonData.start_time = start_time;
@@ -383,7 +388,7 @@ function updateDivWithResponse(responseText, isSuccess) {
     try {
       const jsonResponse = JSON.parse(responseText);
       if (jsonResponse.status === '200') {
-        messageDiv.innerHTML = `${jsonResponse.message} – <a href="${jsonResponse.url}" target="_blank" class="plugin-view-course-race-link-83a1371d7">View Course</a>`;
+        messageDiv.innerHTML = `${jsonResponse.message} – <a href="${jsonResponse.url}" target="_blank" class="plugin-view-course-race-link-83a1371d7">${jsonResponse.cta}</a>`;
       } else {
         messageDiv.innerHTML = jsonResponse.message || 'An error occurred.';
       }
@@ -895,6 +900,9 @@ async function setupSearchSuggestions(searchInputId, suggestionsBoxId) {
             searchInput.value = placeName;
             searchInput.setAttribute('data-lat', suggestion.coordinates[1]);
             searchInput.setAttribute('data-lon', suggestion.coordinates[0]);
+            searchInput.setAttribute('data-region', suggestion.region || '');
+            searchInput.setAttribute('data-city', suggestion.city || '');
+            searchInput.setAttribute('data-country', suggestion.country || '');
             suggestionsBox.innerHTML = "";
             suggestionsBox.classList.remove('active');
             suggestionsBox.style.display = "none";
