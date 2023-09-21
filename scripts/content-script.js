@@ -550,7 +550,7 @@ async function fetchRaceData(username) {
       data.raceRecords.forEach(record => {
         const option = document.createElement('option');
         option.value = record.airtable_record_id_at;
-        option.textContent = `${record.name_at} (${record.age} ago)`;
+        option.textContent = `${record.name_at} (${record.age_at} ago)`;
         dropdownElement.appendChild(option);
       });
 
