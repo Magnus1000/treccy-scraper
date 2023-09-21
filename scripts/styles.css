@@ -635,6 +635,9 @@ h1 {
 }
 
 .plugin-button-create-wrapper-83a1371d7 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   color: #1b2b1c;
   font-size: 14px;
   padding: 20px 10px;
@@ -657,7 +660,7 @@ h1 {
   transition: all .3s;
   display: flex;
   line-height: 1.3em;
-  border: 0;
+  border: #BFF103 1px solid;
   padding: 9px 15px;
   text-decoration: none;
 }
@@ -675,7 +678,6 @@ h1 {
   transition: all .3s;
   display: flex;
   line-height: 1.3em;
-  border: 0;
   padding: 9px 15px;
   text-decoration: none;
 }

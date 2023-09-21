@@ -59,6 +59,8 @@ async function loadDrawer() {
       populateFormFields();
       attachFormStateListeners();
       isDrawerInitialized = true;
+      attachClearFormButtonRevealListener();
+      attachClearFormConfirmationButtonListener();
     }
   } catch (error) {
     console.log('Failed to load drawer: ', error);
@@ -1085,4 +1087,75 @@ function clearFormData() {
   });
 
   console.log('Form data cleared.');
+}
+
+function attachClearFormButtonRevealListener() {
+  // Log to console that we are attaching the event listener
+  console.log('Attaching listener to plugin-clear-form-83a1371d7');
+
+  // Find the button element by its ID
+  const clearFormButton = document.getElementById('plugin-clear-form-83a1371d7');
+
+  // Check if the button element exists
+  if (clearFormButton) {
+    console.log('plugin-clear-form-83a1371d7 element found');
+
+    // Attach a click event listener to the button
+    clearFormButton.addEventListener('click', () => {
+      console.log('plugin-clear-form-83a1371d7 clicked');
+
+      // Find the confirmation element by its ID
+      const confirmationElement = document.getElementById('plugin-clear-form-confirmation-83a1371d7');
+
+      // Check if the confirmation element exists
+      if (confirmationElement) {
+        // Slowly remove the 'hidden' class from the confirmation element
+        setTimeout(() => {
+          confirmationElement.classList.remove('hidden');
+        }, 200);
+      }
+
+      // Apply the 'hidden' class to the button (itself)
+      clearFormButton.classList.add('hidden');
+    });
+  } else {
+    // Log an error message if the button is not found
+    console.error('Element with ID = plugin-clear-form-83a1371d7 not found');
+  }
+}
+
+// Function to attach event listener to the confirmation button
+function attachClearFormConfirmationButtonListener() {
+  console.log('Attaching listener to plugin-clear-form-confirmation-83a1371d');
+
+  // Find the confirmation button element by its ID
+  const confirmationButton = document.getElementById('plugin-clear-form-confirmation-83a1371d');
+
+  // Check if the confirmation button element exists
+  if (confirmationButton) {
+    console.log('plugin-clear-form-confirmation-83a1371d element found');
+
+    // Attach a click event listener to the confirmation button
+    confirmationButton.addEventListener('click', () => {
+      console.log('plugin-clear-form-confirmation-83a1371d clicked');
+
+      // Call the clearFormData function
+      clearFormData();
+
+      // Add the 'hidden' class to the confirmation button itself
+      confirmationButton.classList.add('hidden');
+
+      // Find the original clear form button by its ID
+      const originalClearFormButton = document.getElementById('plugin-clear-form-83a1371d7');
+
+      // Check if the original clear form button exists
+      if (originalClearFormButton) {
+        // Remove the 'hidden' class from the original clear form button
+        originalClearFormButton.classList.remove('hidden');
+      }
+    });
+  } else {
+    // Log an error message if the button is not found
+    console.error('Element with ID = plugin-clear-form-confirmation-83a1371d not found');
+  }
 }
