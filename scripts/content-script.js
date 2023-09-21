@@ -61,6 +61,7 @@ async function loadDrawer() {
       isDrawerInitialized = true;
       attachClearFormButtonRevealListener();
       attachClearFormConfirmationButtonListener();
+      attachGlobalDropdownKeyListener();
     }
   } catch (error) {
     console.log('Failed to load drawer: ', error);
@@ -549,7 +550,7 @@ async function fetchRaceData(username) {
       data.raceRecords.forEach(record => {
         const option = document.createElement('option');
         option.value = record.airtable_record_id_at;
-        option.textContent = record.name_at;
+        option.textContent = `${record.name_at} (${record.age} ago)`;
         dropdownElement.appendChild(option);
       });
 
@@ -574,7 +575,7 @@ async function fetchRaceData(username) {
         placeholderOption.value = '';
         placeholderOption.textContent = 'Select sport';
         placeholderOption.selected = true;
-        placeholderOption.disabled = true;
+        placeholderOption.disabled = false;
         dropdown.appendChild(placeholderOption);
 
         // Populate dropdown with sport names
@@ -1101,7 +1102,8 @@ function attachClearFormButtonRevealListener() {
     console.log('plugin-clear-form-83a1371d7 element found');
 
     // Attach a click event listener to the button
-    clearFormButton.addEventListener('click', () => {
+    clearFormButton.addEventListener('click', (event) => {
+      event.preventDefault();
       console.log('plugin-clear-form-83a1371d7 clicked');
 
       // Find the confirmation element by its ID
@@ -1126,18 +1128,19 @@ function attachClearFormButtonRevealListener() {
 
 // Function to attach event listener to the confirmation button
 function attachClearFormConfirmationButtonListener() {
-  console.log('Attaching listener to plugin-clear-form-confirmation-83a1371d');
+  console.log('Attaching listener to plugin-clear-form-confirmation-83a1371d7');
 
   // Find the confirmation button element by its ID
-  const confirmationButton = document.getElementById('plugin-clear-form-confirmation-83a1371d');
+  const confirmationButton = document.getElementById('plugin-clear-form-confirmation-83a1371d7');
 
   // Check if the confirmation button element exists
   if (confirmationButton) {
-    console.log('plugin-clear-form-confirmation-83a1371d element found');
+    console.log('plugin-clear-form-confirmation-83a1371d7 element found');
 
     // Attach a click event listener to the confirmation button
-    confirmationButton.addEventListener('click', () => {
-      console.log('plugin-clear-form-confirmation-83a1371d clicked');
+    confirmationButton.addEventListener('click', (event) => {
+      console.log('plugin-clear-form-confirmation-83a1371d7 clicked');
+      event.preventDefault();
 
       // Call the clearFormData function
       clearFormData();
@@ -1156,6 +1159,39 @@ function attachClearFormConfirmationButtonListener() {
     });
   } else {
     // Log an error message if the button is not found
-    console.error('Element with ID = plugin-clear-form-confirmation-83a1371d not found');
+    console.error('Element with ID = plugin-clear-form-confirmation-83a1371d7 not found');
   }
+}
+
+// Function to attach a keydown event listener to the document
+function attachGlobalDropdownKeyListener() {
+  console.log('Attaching global keydown listener');
+
+  // Attach a keydown event listener to the document
+  document.addEventListener('keydown', (event) => {
+    console.log(`Key pressed: ${event.key}`);
+
+    // Check if the target element is a select element
+    if (event.target.tagName === 'SELECT') {
+      // Get the select element from the event target
+      const dropdown = event.target;
+
+      // Log the ID of the select element
+      console.log(`Dropdown ID: ${dropdown.id}`);
+
+      // Check if the Delete or Backspace key was pressed
+      if (event.key === 'Delete' || event.key === 'Backspace') {
+        // Check if a placeholder option exists
+        const placeholderExists = Array.from(dropdown.options).some(option => option.value === '');
+
+        if (placeholderExists) {
+          // Set the dropdown value to an empty string to select the placeholder
+          dropdown.value = '';
+          console.log('Dropdown reset to placeholder');
+        } else {
+          console.log('No placeholder found. Skipping reset.');
+        }
+      }
+    }
+  });
 }
