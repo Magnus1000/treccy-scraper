@@ -1,7 +1,10 @@
 const username = '@mazzy';
 const formated_start_time = getCurrentFormattedTime();
 const start_time = Math.floor(new Date().getTime() / 1000);
-const requiredFields = ['race-name', 'race-description', 'race-location', 'race-date', 'race-time'];
+const requiredRaceFields = ['race-name', 'race-description', 'race-location', 'race-date', 'race-time'];
+const requiredCourseFields = ['plugin-course-form-race-name-83a1371d7'];
+// Declare the variable without initializing it
+let addedImageURLs;
 
 console.log(`Started at ${formated_start_time}`);
 
@@ -42,14 +45,21 @@ async function loadDrawer() {
       attachHighlightButtonListeners();
       prepopulateWebsiteUrl();
       startTimer();
-      addImageAndCheckboxes('plugin-race-image-grid-83a1371d7','plugin-race-image-template-div-83a1371d7');
       collectEmails();
       setUsernameText(username);
       fetchRaceData(username);
       toggleCustomCheckbox();
       allowSingleMainCheckbox();
+      populateFormFields();
+      attachFormStateListeners();
+      processAndSaveImages();
+      if (document.getElementById('form-type').value === 'race' ) {
+        addImageAndCheckboxes('plugin-race-image-grid-83a1371d7','plugin-race-image-template-div-83a1371d7');
+      };
+      if (document.getElementById('form-type').value === 'course' ) {
+        addImageAndCheckboxes('plugin-course-image-grid-83a1371d7','plugin-course-image-template-div-83a1371d7');
+      };               
       showHideForm();
-      // Attach an event listener to the dropdown
       document.getElementById('form-type').addEventListener('change', showHideForm);
       attachRaceNameListener();
       setupSearchSuggestions('race-location', 'plugin-race-location-suggestions-83a1371d7');
@@ -57,13 +67,12 @@ async function loadDrawer() {
       attachRefreshButtonListener('plugin-refresh-race-images-button-83a1371d7','plugin-race-image-grid-83a1371d7','plugin-race-image-template-div-83a1371d7');
       attachRefreshButtonListener('plugin-refresh-course-images-button-83a1371d7','plugin-course-image-grid-83a1371d7','plugin-course-image-template-div-83a1371d7');
       attachSportToggleListener();
-      populateFormFields();
-      attachFormStateListeners();
-      isDrawerInitialized = true;
       attachClearFormButtonRevealListener();
       attachClearFormConfirmationButtonListener();
       attachGlobalDropdownKeyListener();
-      checkRaceFormFields('race-details-form', requiredFields);
+      checkFormFields('race-details-form', requiredRaceFields, 'main', 'gallery', 'create-race-button-83a1371d7');
+      checkFormFields('course-details-form', requiredCourseFields, 'main-course', 'gallery-course', 'create-course-button-83a1371d7');
+      isDrawerInitialized = true;
     }
   } catch (error) {
     console.log('Failed to load drawer: ', error);
@@ -603,8 +612,16 @@ async function fetchRaceData(username) {
   }
 }
 
-// Initialize a Set to hold image URLs that have been added
-const addedImageURLs = new Set();
+// Function to load image URLs from sessionStorage into the Set
+function loadImageURLsFromSessionStorage() {
+  if (sessionStorage.getItem('addedImageURLs')) {
+    const storedImageURLsArray = JSON.parse(sessionStorage.getItem('addedImageURLs'));
+    addedImageURLs = new Set(storedImageURLsArray); // Initialize the Set with stored image URLs
+    console.log('Image URLs set loaded from sessionStorage:', storedImageURLsArray);
+  } else {
+    addedImageURLs = new Set(); // Initialize an empty Set to hold image URLs that have been added
+  }
+}
 
 // Function to find all image URLs on the page
 function findAllImageURLs() {
@@ -624,33 +641,64 @@ function findAllImageURLs() {
   return imageURLs;  // Return the array of image URLs
 }
 
+// Function to save the image set to sessionStorage
+function saveImageSetToSessionStorage() {
+  // Convert the Set to an array
+  const addedImageURLsArray = Array.from(addedImageURLs);
+
+  // Save the array to sessionStorage as a JSON string
+  sessionStorage.setItem('addedImageURLs', JSON.stringify(addedImageURLsArray));
+
+  console.log('Image URLs set saved:', addedImageURLsArray);
+}
+
+// Main function to find all image URLs, remove duplicates, and save to session storage
+function processAndSaveImages() {
+  // Step 1: Check if there are any images in session storage
+  if (sessionStorage.getItem('addedImageURLs')) {
+    // If yes, load existing image URLs from session storage into Set
+    loadImageURLsFromSessionStorage();
+  } else {
+    // If not, initialize an empty Set to hold image URLs that will be added
+    addedImageURLs = new Set();
+  }
+
+  // Step 2: Find all image URLs on the page
+  const foundImageURLs = findAllImageURLs();
+
+  // Step 3: Add the found image URLs to our Set (this will automatically remove duplicates)
+  foundImageURLs.forEach(url => {
+    addedImageURLs.add(url);
+  });
+
+  // Step 4: Save the updated image URLs set to session storage
+  saveImageSetToSessionStorage();
+
+  console.log('Image URLs processed and saved.');
+}
+
 // Function to add multiple images and checkboxes, now accepts container and template IDs as parameters
 function addImageAndCheckboxes(containerID, templateDivID) {
   console.log(`Adding images and checkboxes to container: ${containerID}`); // Log function call
   
-  const imageURLs = findAllImageURLs(); // Call the function to find all image URLs
+  // Load existing image URLs from session storage into Set
+  loadImageURLsFromSessionStorage();
+  
+  const imageURLs = Array.from(addedImageURLs); // Convert the Set of image URLs to an array
   const container = document.getElementById(containerID); // Get the container where the images and checkboxes will go
   const templateDiv = document.getElementById(templateDivID); // Get the template div using its ID from the parameter
 
   imageURLs.forEach((imageURL) => {
-    // Check if the imageURL has not been added yet
-    if (!addedImageURLs.has(imageURL)) {
-      const clone = templateDiv.cloneNode(true); // Clone the template div
+    const clone = templateDiv.cloneNode(true); // Clone the template div
 
-      // Remove the ID from the cloned div so that it's not duplicated
-      clone.removeAttribute('id');
+    // Remove the ID from the cloned div so that it's not duplicated
+    clone.removeAttribute('id');
 
-      const imgElement = clone.querySelector('img'); // Find the image element inside the cloned div
-      imgElement.src = imageURL; // Set the image URL
-      
-      container.appendChild(clone); // Append the cloned div to the container
-
-      // Add this imageURL to the set of added image URLs
-      addedImageURLs.add(imageURL);
-      console.log(`Added new image URL: ${imageURL}`); // Log the new addition
-    } else {
-      console.log(`Image URL already added: ${imageURL}`); // Log that this imageURL was skipped
-    }
+    const imgElement = clone.querySelector('img'); // Find the image element inside the cloned div
+    imgElement.src = imageURL; // Set the image URL
+    
+    container.appendChild(clone); // Append the cloned div to the container
+    console.log(`Added image URL: ${imageURL}`); // Log the new addition
   });
 }
 
@@ -670,23 +718,6 @@ function toggleCustomCheckbox() {
     });
   });
 }
-
-/*// New function to handle checkbox toggle
-function toggleCustomCheckbox() {
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  
-  checkboxes.forEach((checkbox) => {
-    checkbox.addEventListener('change', function() {
-      const customCheckbox = this.previousElementSibling;
-      
-      if (this.checked) {
-        customCheckbox.classList.add('checked');
-      } else {
-        customCheckbox.classList.remove('checked');
-      }
-    });
-  });
-}*/
 
 // Function to only allow one Main Photo to be selected at a time
 function allowSingleMainCheckbox() {
@@ -845,7 +876,6 @@ function attachRefreshButtonListener(buttonID, containerID, templateDivID) {
     addImageAndCheckboxes(containerID, templateDivID); // Call the function to add images and checkboxes
     toggleCustomCheckbox();
     allowSingleMainCheckbox();
-    checkRaceFormFields();
   });
 
   console.log("Event listener attached to refresh button"); // Log that the event listener has been attached
@@ -1057,6 +1087,8 @@ function saveFormFieldStates() {
     formData[textarea.id] = textarea.value;
   });
 
+  saveImageSetToSessionStorage();
+
   sessionStorage.setItem('formData', JSON.stringify(formData));
   console.log('Form field states saved:', formData);
 }
@@ -1203,71 +1235,63 @@ function attachGlobalDropdownKeyListener() {
   });
 }
 
-// Function to ensure required fields are set
-function checkRaceFormFields(formID, fieldIDs) {
-  // Get the form element by its ID
-  const form = document.getElementById(formID);
 
-  // Get the "Create Race" button
-  const createRaceButton = document.getElementById('create-race-button-83a1371d7');
+// Function to set required fields
+function checkFormFields(formID, fieldIDs, maincheckboxType, gallerycheckboxType, createButtonID) {
+const form = document.getElementById(formID);
+const createButton = document.getElementById(createButtonID);
 
-  // Disable the button by default
-  createRaceButton.disabled = true;
-  createRaceButton.style.opacity = '0.5';
+// Disable the button by default
+createButton.disabled = true;
+createButton.style.opacity = '0.5';
 
-  // Log the initial status
-  console.log("Initial button state: disabled");
-  console.log(`Number of required fields: ${fieldIDs.length}`);
+console.log("Initial button state: disabled");
+console.log(`Number of required fields: ${fieldIDs.length}`);
 
-  // Listen for input events on the form
-  form.addEventListener('input', function () {
-    // Initialize a variable to keep track of filled fields
-    let filledFields = 0;
+// Listen for input events on the form
+form.addEventListener('input', function () {
+  let filledFields = 0;
 
-    // Initialize variables to track checkbox types
-    let mainChecked = false;
-    let galleryChecked = false;
-
-    // Loop through each ID in the fieldIDs array
-    fieldIDs.forEach(function (id) {
-      const field = form.querySelector(`#${id}`);
-
-      if (field) {
-        if (field.type === 'checkbox') {
-          if (field.checked) {
-            if (field.getAttribute('data-type') === 'main') {
-              mainChecked = true;
-            } else if (field.getAttribute('data-type') === 'gallery') {
-              galleryChecked = true;
-            }
-            filledFields++;
-          }
-        } else {
-          if (field.value) {
-            filledFields++;
-          }
-        }
-      }
-    });
-    
-    // Log the number of filled fields
-    console.log(`Filled fields: ${filledFields}`);
-
-    // Check if all fields have values or are checked, and required checkboxes are checked
-    if (filledFields === fieldIDs.length && mainChecked && galleryChecked) {
-      // Enable the button
-      createRaceButton.disabled = false;
-      createRaceButton.style.opacity = '1';
-
-      // Log that the button is enabled
-      console.log("Button state: enabled");
-    } else {
-      // Keep the button disabled
-      createRaceButton.disabled = true;
-      createRaceButton.style.opacity = '0.5';
-
-      // Log that the button is disabled
-      console.log("Button state: disabled");
+  // Loop through each ID in the fieldIDs array
+  fieldIDs.forEach(function (id) {
+    const field = form.querySelector(`#${id}`);
+    if (field && field.value) {
+      filledFields++;
     }
   });
+
+  let mainCheckboxCount = 0;
+  let galleryCheckboxCount = 0;
+
+  // Only check checkboxes if formID is 'race-details-form'
+  if (formID === 'race-details-form') {
+    const maincheckboxquery = `input[data-type="${maincheckboxType}"]:checked`;
+    const gallerycheckboxquery = `input[data-type="${gallerycheckboxType}"]:checked`;
+
+    const mainCheckboxes = document.querySelectorAll(maincheckboxquery);
+    mainCheckboxCount = mainCheckboxes.length;
+
+    const galleryCheckboxes = document.querySelectorAll(gallerycheckboxquery);
+    galleryCheckboxCount = galleryCheckboxes.length;
+  }
+
+  // Final condition to enable or disable button
+  let enableButton = false;
+
+  if (formID === 'race-details-form') {
+    enableButton = filledFields === fieldIDs.length && mainCheckboxCount === 1 && galleryCheckboxCount >= 1;
+  } else {
+    enableButton = filledFields === fieldIDs.length;
+  }
+
+  if (enableButton) {
+    createButton.disabled = false;
+    createButton.style.opacity = '1';
+    console.log("Button state: enabled");
+  } else {
+    createButton.disabled = true;
+    createButton.style.opacity = '0.5';
+    console.log("Button state: disabled");
+  }
+});
 }

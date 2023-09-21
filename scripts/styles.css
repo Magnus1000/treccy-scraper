@@ -117,6 +117,10 @@ h1 {
   border-radius: 5px;
 }
 
+#form-type {
+  background-color: transparent;
+}
+
 .plugin-form-select-dropdown-wrapper-83a1371d7.account-page {
   z-index: 2000;
   margin-bottom: 0;
