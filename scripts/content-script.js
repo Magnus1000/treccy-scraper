@@ -48,7 +48,6 @@ async function loadDrawer() {
       collectEmails();
       setUsernameText(username);
       fetchRaceData(username);
-      toggleCustomCheckbox();
       allowSingleMainCheckbox();
       populateFormFields();
       attachFormStateListeners();
@@ -62,6 +61,7 @@ async function loadDrawer() {
       showHideForm();
       document.getElementById('form-type').addEventListener('change', showHideForm);
       attachRaceNameListener();
+      toggleCustomCheckbox();
       setupSearchSuggestions('race-location', 'plugin-race-location-suggestions-83a1371d7');
       toggleAdditionalSportsVisibility();
       attachRefreshButtonListener('plugin-refresh-race-images-button-83a1371d7','plugin-race-image-grid-83a1371d7','plugin-race-image-template-div-83a1371d7');
