@@ -28,21 +28,6 @@ chrome.storage.local.get(['checkboxState'], function(result) {
     });
 }
 
-/*// Function to store the form fields
-function storeFormFields(formFields) {
-chrome.storage.local.set({ 'formFields': formFields }, function() {
-    console.log('Form fields saved:', formFields);
-    });
-}
-
-// Function to get the stored form fields
-function getFormFields(callback) {
-chrome.storage.local.get(['formFields'], function(result) {
-    console.log('Retrieved form fields:', result.formFields);
-    callback(result.formFields);
-    });
-}*/
-
 // Function to send message to content script to load the drawer
 function sendDrawerMessage() {
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
